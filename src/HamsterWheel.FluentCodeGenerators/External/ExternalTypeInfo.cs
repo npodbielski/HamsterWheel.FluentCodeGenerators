@@ -1,0 +1,30 @@
+using HamsterWheel.FluentCodeGenerators.Tokens;
+using Microsoft.CodeAnalysis;
+
+namespace HamsterWheel.FluentCodeGenerators.External;
+
+public record ExternalTypeInfo(
+    PascalCaseName Name,
+    Namespace Namespace,
+    int NumberOfGenericArgs = 0,
+    bool IsArray = false) : IExternalTypeInfo
+{
+    public string FullNameString => $"{Namespace}.{Name}";
+
+    public static ExternalTypeInfo From<T>() => From(typeof(T));
+
+    public static ExternalTypeInfo From(Type type) => new(type.Name, type.Namespace.ToNamespace(),
+        type.GenericTypeArguments.Length);
+
+    public static ExternalTypeInfo From(ITypeSymbol symbol)
+    {
+        var isArray = symbol.Kind == SymbolKind.ArrayType;
+        symbol = isArray ? ((IArrayTypeSymbol)symbol).ElementType : symbol;
+
+        var nameSpace = symbol.ContainingNamespace.ToString();
+        return new ExternalTypeInfo(symbol.Name, nameSpace.ToNamespace(),
+            (symbol as INamedTypeSymbol)?.TypeArguments.Length ?? 0, IsArray: isArray);
+    }
+
+    public override string ToString() => Name;
+}
