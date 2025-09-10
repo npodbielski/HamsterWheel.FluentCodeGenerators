@@ -1,0 +1,9 @@
+﻿<Solution>
+  <Folder Name="/Src/">
+    <Project Path="src\HamsterWheel.FluentCodeGenerators.Abstractions\HamsterWheel.FluentCodeGenerators.Abstractions.csproj" Type="Classic C#" />
+    <Project Path="src\HamsterWheel.FluentCodeGenerators\HamsterWheel.FluentCodeGenerators.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="test\HamsterWheel.FluentCodeGenerators.UnitTests\HamsterWheel.FluentCodeGenerators.UnitTests.csproj" Type="Classic C#" />
+  </Folder>
+</Solution>
