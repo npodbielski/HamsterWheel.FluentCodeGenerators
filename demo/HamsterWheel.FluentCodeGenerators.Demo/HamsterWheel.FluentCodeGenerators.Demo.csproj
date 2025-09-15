@@ -13,7 +13,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.1-alpha-6526" PrivateAssets="all" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.1-alpha-6526" />
     </ItemGroup>
     
     <ItemGroup>
