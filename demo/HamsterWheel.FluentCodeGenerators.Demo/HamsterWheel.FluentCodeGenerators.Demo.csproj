@@ -14,16 +14,10 @@
 
     <ItemGroup>
         <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.1-alpha-6526" PrivateAssets="all" />
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.1-alpha-6526" PrivateAssets="all" />
     </ItemGroup>
     
     <ItemGroup>
         <Content Include="$(OutputPath)\**\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="False" />
     </ItemGroup>
-
-    <Target Name="DisplayMessages" AfterTargets="Prepare">
-        <Message Text="Project File Name = $(MSBuildProjectFile)" />
-        <Message Text="Project Extension = $(MSBuildProjectExtension)" />
-    </Target>
 
 </Project>
