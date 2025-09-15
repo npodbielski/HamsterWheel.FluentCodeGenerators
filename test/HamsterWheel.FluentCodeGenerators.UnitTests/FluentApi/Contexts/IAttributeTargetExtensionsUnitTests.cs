@@ -13,7 +13,7 @@ public class IAttributeTargetExtensionsUnitTests
 {
     private readonly ClassContext _sut;
     private readonly ClassDefinitionChunk _chunk;
-    private const string Version = "0.4.0.0";
+    private const string Version = "0.4.1.0";
 
     public IAttributeTargetExtensionsUnitTests()
     {
