@@ -45,6 +45,7 @@ package-alpha:
   rules:
     - if: $CI_COMMIT_BRANCH == "alpha"
   script:
+    - dotnet build -c Release --no-restore
     - dotnet pack -c Release --version-suffix $CI_COMMIT_BRANCH-$CI_JOB_ID
     # Configure GitLab package registry as a NuGet source
     - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
@@ -59,6 +60,7 @@ package:
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
   script:
+    - dotnet build -c Release --no-restore
     - dotnet pack -c Release
     # Configure GitLab package registry as a NuGet source
     - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text

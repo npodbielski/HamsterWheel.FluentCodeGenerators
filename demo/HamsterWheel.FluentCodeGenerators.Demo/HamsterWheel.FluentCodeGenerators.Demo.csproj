@@ -18,7 +18,12 @@
     </ItemGroup>
     
     <ItemGroup>
-        <None Include="bin\$(Configuration)\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+        <Content Include="$(OutputPath)\**\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="False" />
     </ItemGroup>
+
+    <Target Name="DisplayMessages" AfterTargets="Prepare">
+        <Message Text="Project File Name = $(MSBuildProjectFile)" />
+        <Message Text="Project Extension = $(MSBuildProjectExtension)" />
+    </Target>
 
 </Project>

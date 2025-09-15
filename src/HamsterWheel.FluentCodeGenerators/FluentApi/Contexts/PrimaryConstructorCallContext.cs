@@ -7,11 +7,12 @@ namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 public class PrimaryConstructorCallContext(CodeBuilderContextBase previous, PrimaryConstructorCallChunk callChunk)
     : CodeBuilderContextBase(previous), IPrimaryConstructorCallContext
 {
+    private readonly CodeBuilderContextBase _previous = previous;
     public CamelCaseName[] ParametersNames => callChunk.Parameters.Select(p => new CamelCaseName(p.Name)).ToArray();
 
     public IPrimaryConstructorCallContext WithParameter(Action<IParameterValueContext> configure)
     {
-        var parameterValueChunk = ParameterValueChunk.From("", previous.Settings.DefaultCulture);
+        var parameterValueChunk = ParameterValueChunk.From("", _previous.Settings.DefaultCulture);
         callChunk.AddParameter(parameterValueChunk);
         var context = ParameterValueContext.From(this, parameterValueChunk);
         configure(context);
