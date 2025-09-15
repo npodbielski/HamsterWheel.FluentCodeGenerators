@@ -2,9 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.Chunks;
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
-using HamsterWheel.FluentCodeGenerators.FluentApi;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
-using HamsterWheel.FluentCodeGenerators.Generators;
 using HamsterWheel.FluentCodeGenerators.Tokens;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
@@ -20,7 +18,6 @@ public class IAttributeTargetExtensionsUnitTests
         _chunk = new ClassDefinitionChunk(TypeDefinitionWithPrimaryConstructorChunk.FromName());
         var context = new SourceCodeFileContext();
         _sut = new(context, _chunk);
-        FluentApiSettings.GeneratorAssembly = typeof(SourceCodeFileGeneratorBase).Assembly;
     }
 
     [Fact]
@@ -53,10 +50,16 @@ public class IAttributeTargetExtensionsUnitTests
 
                                 }
                                 """;
-        FluentApiSettings.GeneratorAssembly = GetType().Assembly;
+        ClassContext sut = new ( new SourceCodeFileContext(), _chunk)
+        {
+            Settings =
+            {
+                GeneratorAssembly = GetType().Assembly
+            }
+        };
 
         //act
-        _sut.WithGeneratedCodeAttr();
+        sut.WithGeneratedCodeAttr();
 
         //assert
         _chunk.Should().RenderAs(expected);

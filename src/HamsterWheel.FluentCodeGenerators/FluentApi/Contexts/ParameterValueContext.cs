@@ -28,7 +28,7 @@ public class ParameterValueContext(CodeBuilderContextBase previous, ParameterVal
 
     public IParameterValueContext UseConst(object value)
     {
-        parameterValue.SetValue(value);
+        parameterValue.SetValue(value, Settings.DefaultCulture);
         return this;
     }
 

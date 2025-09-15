@@ -18,7 +18,7 @@ public class SingleAttributeContext(CodeBuilderContextBase previous, AttributeDe
 
     public ISingleAttributeContext WithParameter(Action<IParameterValueContext> configure)
     {
-        var parameterValueChunk = ParameterValueChunk.From("");
+        var parameterValueChunk = ParameterValueChunk.From("", previous.Settings.DefaultCulture);
         attributeChunk.AddParameter(parameterValueChunk);
         var context = new ParameterValueContext(this, parameterValueChunk)
         {

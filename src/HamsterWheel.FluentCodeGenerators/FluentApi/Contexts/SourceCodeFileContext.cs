@@ -63,6 +63,7 @@ public static class SourceCodeFileContextExtensions
 
         return context;
     }
+
     public static ISourceCodeFileContext EnableNullability(this ISourceCodeFileContext context) =>
         context.AddPragma(p => p.Nullability(n => n.Enable()));
 

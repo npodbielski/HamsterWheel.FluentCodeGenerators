@@ -39,7 +39,7 @@ public class FileScopedNamespaceContextExtensionsUnitTests
                          using System.CodeDom.Compiler;
 
                          namespace test;
-                       
+
                          [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
                          public class MyClass
                          {
@@ -62,7 +62,7 @@ public class FileScopedNamespaceContextExtensionsUnitTests
                          using System.CodeDom.Compiler;
 
                          namespace test;
-                       
+
                          [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
                          public sealed class MyClass
                          {
@@ -85,7 +85,7 @@ public class FileScopedNamespaceContextExtensionsUnitTests
                          using System.CodeDom.Compiler;
 
                          namespace test;
-                       
+
                          [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
                          public sealed class MyClass
                          {

@@ -11,7 +11,7 @@ public class PrimaryConstructorCallContext(CodeBuilderContextBase previous, Prim
 
     public IPrimaryConstructorCallContext WithParameter(Action<IParameterValueContext> configure)
     {
-        var parameterValueChunk = ParameterValueChunk.From("");
+        var parameterValueChunk = ParameterValueChunk.From("", previous.Settings.DefaultCulture);
         callChunk.AddParameter(parameterValueChunk);
         var context = ParameterValueContext.From(this, parameterValueChunk);
         configure(context);
