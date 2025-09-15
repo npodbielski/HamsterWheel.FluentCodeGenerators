@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+
+        <IsRoslynComponent>true</IsRoslynComponent>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.1-alpha-6526" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.1-alpha-6526" GeneratePathProperty="true" PrivateAssets="all" />
+    </ItemGroup>
+
+</Project>
