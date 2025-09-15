@@ -10,8 +10,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="loggers\HelloWorldLogger.txt" />
-      <AdditionalFiles Include="loggers\LoreImpsum.txt" />
+        <AdditionalFiles Include="loggers\HelloWorldLogger.txt"/>
+        <AdditionalFiles Include="loggers\LoreImpsum.txt"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Demo" Version="0.4.1-alpha-6538" />
     </ItemGroup>
 
 </Project>

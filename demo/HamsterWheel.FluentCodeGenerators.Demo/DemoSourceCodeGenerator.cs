@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.IO;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 using HamsterWheel.FluentCodeGenerators.Generators;
 using Microsoft.CodeAnalysis;

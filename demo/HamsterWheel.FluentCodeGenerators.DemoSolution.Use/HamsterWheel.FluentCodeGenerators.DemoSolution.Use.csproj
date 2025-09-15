@@ -9,9 +9,6 @@
         <RootNamespace>HamsterWheel.FluentCodeGenerators.Demo.Use</RootNamespace>
 
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <IsRoslynComponent>true</IsRoslynComponent>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
