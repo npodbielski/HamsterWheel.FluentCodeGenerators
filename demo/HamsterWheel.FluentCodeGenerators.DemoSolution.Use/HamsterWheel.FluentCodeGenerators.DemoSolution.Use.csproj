@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>HamsterWheel.FluentCodeGenerators.Demo.Use</RootNamespace>
+
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <IsRoslynComponent>true</IsRoslynComponent>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="loggers\HelloWorldLogger.txt"/>
+        <AdditionalFiles Include="loggers\HelloWorldLogger.txt"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SolutionDir)\demo\HamsterWheel.FluentCodeGenerators.DemoSolution\HamsterWheel.FluentCodeGenerators.DemoSolution.csproj"
+                          OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.0" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.0" GeneratePathProperty="true" PrivateAssets="all" />
+    </ItemGroup>
+    
+</Project>
