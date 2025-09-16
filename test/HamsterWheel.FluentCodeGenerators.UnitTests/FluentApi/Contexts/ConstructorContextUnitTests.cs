@@ -1,3 +1,4 @@
+using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.Chunks.Member;
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
@@ -81,7 +82,7 @@ public class ConstructorContextUnitTests
                          """;
 
         //act
-        _sut.WithBody(b => b.Append(b.ParameterNames[0]));
+        _sut.WithBody(b => b.Append(b.ParametersNames[0]));
 
         //assert
         _chunk.Should().RenderAs(expected);
@@ -105,15 +106,41 @@ public class ConstructorContextUnitTests
     {
         //arrange
         var expected = $$"""
-                        public {{TypeName}}(string {{FirstParamName}}, string newParam)
-                        {
-                        }
-                        """;
+                         public {{TypeName}}(string {{FirstParamName}}, string newParam)
+                         {
+                         }
+                         """;
 
         //act
         _sut.WithParameter(p => p.Named("newParam"));
 
         //assert
         _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void WithParameter_WhenCalled_ThenAvailableInParametersCollection()
+    {
+        //arrange
+        //act
+        _sut.WithParameter(p => p.Named("newParam"));
+
+        //assert
+        _sut.ParametersNames.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public void WithParameter_WhenCalled_ThenAvailableInBody()
+    {
+        //arrange
+        _sut.WithParameter(p => p.Named("newParam"));
+        IMethodBodyContext? bodyContext = null;
+
+        //act
+        _sut.WithBody(b => bodyContext = b);
+
+        //assert
+        bodyContext.Should().NotBeNull();
+        bodyContext.ParametersNames.Should().HaveCount(2);
     }
 }

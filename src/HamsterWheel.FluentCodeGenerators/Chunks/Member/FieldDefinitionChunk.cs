@@ -41,30 +41,15 @@ public class FieldDefinitionChunk(string name) : ICodeChunk
 
     public static FieldDefinitionChunk From(string name) => new(name);
 
-    public void MakeNullable()
-    {
-        _type.MakeNullable();
-    }
+    public void MakeNullable() => _type.MakeNullable();
 
-    public void DisableNullableWarning()
-    {
-        _initializer = new DisableNullabilityWarningChunk();
-    }
+    public void DisableNullableWarning() => _initializer = new DisableNullabilityWarningChunk();
 
-    public void WithInitializer(string value)
-    {
-        _initializer = new InitializerChunk(value);
-    }
+    public void WithInitializer(string value) => _initializer = new InitializerChunk(value);
 
-    public void SetType(TypeNameChunk typeNameChunk)
-    {
-        _type = typeNameChunk;
-    }
+    public void SetType(TypeNameChunk typeNameChunk) => _type = typeNameChunk;
 
-    public void MakeStatic()
-    {
-        _isStatic = true;
-    }
+    public void MakeStatic() => _isStatic = true;
 
     public void SetVisibility(MemberVisibility value) => _visibility = value;
 }

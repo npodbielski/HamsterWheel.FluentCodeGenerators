@@ -62,7 +62,7 @@ public class ParameterDefinitionContextUnitTests
         var expected = "int intParam";
 
         //act
-        _sut.OfType<int>();
+        _sut.From<int>();
 
         //assert
         _chunk.Should().RenderAs(expected);

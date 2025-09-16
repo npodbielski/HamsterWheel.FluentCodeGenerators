@@ -17,7 +17,13 @@ public class DemoSolutionSourceCodeGenerator(
         {
             context.WithClass(Path.GetFileNameWithoutExtension(file.FileName),
                 c => c.WithMethod("Log",
-                    m => m.WithBody(b => b.Append($"Console.WriteLine({file.Content.TripleQuote()});"))));
+                        m => m.WithBody(b => b.Append($"Console.WriteLine({file.Content.TripleQuote()});")))
+                    .WithCtor(ct =>
+                    {
+                        ct.WithParameter(p => p.Named("myParam").OfType<int>())
+                            .WithBody(b => b.AppendLine($"Init({ct.ParametersNames[0]});"));
+                    })
+            );
         }
     }
 }
