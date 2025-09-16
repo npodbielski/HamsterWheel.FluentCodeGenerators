@@ -10,8 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="loggers\HelloWorldLogger.txt"/>
-        <AdditionalFiles Include="loggers\LoreImpsum.txt"/>
+        <AdditionalFiles Include="loggers\*.txt"/>
     </ItemGroup>
 
     <ItemGroup>
