@@ -9,7 +9,9 @@ public class DemoSolutionIncrementalGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var additionalFilesProvider = context.AdditionalTextsProvider
-            .Where(AdditionalTextPredicates.FileNameExtensionIs(".txt")).Collect();
+            .Where(AdditionalTextPredicates.FileNameExtensionIs(".txt"))
+            .Select(AdditionalTextSelectors.GetFileNameAndContent)
+            .Collect();
         context.RegisterSourceOutput(additionalFilesProvider,
             (pc, files) => new DemoSolutionSourceCodeGenerator(pc, files).GenerateAndAdd());
     }
