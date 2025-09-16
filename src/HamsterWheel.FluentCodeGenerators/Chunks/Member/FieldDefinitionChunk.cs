@@ -65,4 +65,6 @@ public class FieldDefinitionChunk(string name) : ICodeChunk
     {
         _isStatic = true;
     }
+
+    public void SetVisibility(MemberVisibility value) => _visibility = value;
 }
