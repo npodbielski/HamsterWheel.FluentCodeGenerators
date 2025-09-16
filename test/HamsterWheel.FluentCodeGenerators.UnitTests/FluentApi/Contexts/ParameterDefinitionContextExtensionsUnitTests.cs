@@ -24,7 +24,7 @@ public class ParameterDefinitionContextExtensionsUnitTests
                        """;
 
         //act
-        _sut.From<int>();
+        _sut.OfType<int>();
 
         //assert
         _chunk.Should().RenderAs(expected);

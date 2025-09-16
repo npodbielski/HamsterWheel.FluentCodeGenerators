@@ -40,7 +40,7 @@ public static class PrimaryConstructorDefinitionContextExtensions
                 p.Named(name);
             }
 
-            p.From<TParam>();
+            p.OfType<TParam>();
             configure?.Invoke(p);
         });
         return context;

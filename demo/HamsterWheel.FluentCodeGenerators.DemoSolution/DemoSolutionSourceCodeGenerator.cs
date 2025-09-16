@@ -20,7 +20,7 @@ public class DemoSolutionSourceCodeGenerator(
                         m => m.WithBody(b => b.Append($"Console.WriteLine({file.Content.TripleQuote()});")))
                     .WithCtor(ct =>
                     {
-                        ct.WithParameter(p => p.Named("myParam").OfType<int>())
+                        ct.WithParameter(p => p.Named("myParam").From<int>())
                             .WithBody(b => b.AppendLine($"Init({ct.ParametersNames[0]});"));
                     })
             );

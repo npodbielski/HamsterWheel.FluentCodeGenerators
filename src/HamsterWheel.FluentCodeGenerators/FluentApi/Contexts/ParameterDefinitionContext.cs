@@ -51,7 +51,7 @@ public static class ParameterDefinitionContextExtensions
         return context;
     }
 
-    public static IParameterDefinitionContext From<TParam>(this IParameterDefinitionContext context)
+    public static IParameterDefinitionContext OfType<TParam>(this IParameterDefinitionContext context)
     {
         context.OfType(t => t.From<TParam>());
         return context;
