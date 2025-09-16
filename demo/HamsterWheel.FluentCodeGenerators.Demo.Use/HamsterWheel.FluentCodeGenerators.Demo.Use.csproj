@@ -15,8 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.1-alpha-6565" />
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Demo" Version="0.4.1-alpha-6565" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Demo" Version="0.4.1-alpha-6577" />
     </ItemGroup>
 
 </Project>
