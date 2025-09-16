@@ -13,8 +13,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.1-alpha-6580" GeneratePathProperty="true" />
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.1-alpha-6580" GeneratePathProperty="true" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.1-alpha-6586" GeneratePathProperty="true" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.1-alpha-6586" GeneratePathProperty="true" />
     </ItemGroup>
 
     <ItemGroup>
