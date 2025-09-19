@@ -43,14 +43,14 @@ public class IAttributeTargetExtensionsUnitTests
     public void WithGeneratedCodeAttr_WhenAssemblyChanged_ThenHaveGeneratedCodeAttributeHaveThisAssembly()
     {
         //arrange
-        const string expected = """
-                                [GeneratedCode("HamsterWheel.FluentCodeGenerators.UnitTests", "Version=1.0.0.0")]
-                                public class MyClass
-                                {
+        const string expected = $$"""
+                                  [GeneratedCode("HamsterWheel.FluentCodeGenerators.UnitTests", "Version={{Version}}")]
+                                  public class MyClass
+                                  {
 
-                                }
-                                """;
-        ClassContext sut = new ( new SourceCodeFileContext(), _chunk)
+                                  }
+                                  """;
+        ClassContext sut = new(new SourceCodeFileContext(), _chunk)
         {
             Settings =
             {
