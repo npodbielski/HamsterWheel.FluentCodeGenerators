@@ -4,7 +4,7 @@ namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 
 public static class IInterfaceTargetExtensions
 {
-    public static TContext WithInterface<TContext>(this TContext context, INameInNamespaceToken interfaceName,
+    public static TContext ImplementsInterface<TContext>(this TContext context, INameInNamespaceToken interfaceName,
         Action<IInterfaceImplementationContext>? configure = null) 
         where TContext : IInterfaceTarget<IContext>, IContext
     {
@@ -16,7 +16,7 @@ public static class IInterfaceTargetExtensions
         return context;
     }
 
-    public static TContext WithInterface<TContext>(this TContext context, Type interfaceType,
+    public static TContext ImplementsInterface<TContext>(this TContext context, Type interfaceType,
         Action<IInterfaceImplementationContext>? configure = null) 
         where TContext : IInterfaceTarget<IContext>, IContext
     {
@@ -33,7 +33,7 @@ public static class IInterfaceTargetExtensions
         return context;
     }
 
-    public static TContext WithInterface<TContext>(this TContext context, string interfaceName,
+    public static TContext ImplementsInterface<TContext>(this TContext context, string interfaceName,
         Action<IInterfaceImplementationContext>? configure = null)
         where TContext : IInterfaceTarget<IContext>, IContext
     {
