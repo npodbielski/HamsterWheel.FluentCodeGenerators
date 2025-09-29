@@ -26,7 +26,28 @@ Navigation:
   - [Compilation Providers](#compilation-providers)
   - [Analyzer Config Options Provider](#analyzer-config-options-provider)
   - [Combining Providers](#combining-providers)
-  - 
+  - [Using Fluent API for code generation](#using-fluent-api-for-code-generation)
+    - [Generating Enums](#generating-enums)
+    - [Automated usings management](#automated-usings-management)
+    - [Generating Enums](#generating-enums)
+    - [Generating classes](#generating-classes)
+      - [Base Class](#base-class)
+      - [Add Interfaces](#add-interfaces)
+      - [Add Attribute](#add-attribute)
+      - [Adding Primary Constructor](#adding-primary-constructor)
+      - [Adding Constructor](#adding-constructor)
+      - [Add Property](#add-property)
+      - [Add Field](#add-field)
+      - [Add Method](#add-method)
+      - [Sealed, Partial, Abstract and Static classes](#sealed-partial-abstract-and-static-classes)
+      - [Add arbitrary code](#add-arbitrary-code)
+      - [Add arbitrary code](#add-arbitrary-code)
+    - [Change visibility modifier](#change-visibility-modifier)
+- [Reporting diagnostics](#reporting-diagnostics)
+- [Sharing pieces of logic](#sharing-pieces-of-logic)
+  - [Sharing via Configurators](#sharing-via-configurators)
+  - [Sharing via CodeChunks](#sharing-via-codechunks)
+- [Known issues](#known-issues)
 
 # How to use
 
@@ -405,37 +426,14 @@ namespace Demo; //<-- HERE
 [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version=0.4.1.0")]
 public class LoreImpsum
 ```
-
-
-### Generating Enums
-
-Generating enums is pretty simple with Fluent Code Generators:
-
-```csharp
-context.WithEnum(e => e.Named("OrderStatus")
-    .WithValues(["Created", "Payed", "Sent", "Completed"]));
-```
-
-Will generate following enum:
-
-```csharp
-[GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version=0.4.1.0")]
-public enum OrderStatus
-{
-    Created,
-    Payed,
-    Sent,
-    Completed,
-}
-```
-## Automated `usings` management
+### Automated `usings` management
 
 All generic methods are designed to automatically inject correct statements `using XXXX` where `XXXX` is a namespace that contain your:
-- type 
-  - from generic parameters (i.e. in `OfType<T>`, `From<T>` or `WithProp<T>` and similar) 
-  - from method arguments (i.e. `OfType(type)`, `From(type)` or `WithProp(type)`)
-  - configured by `ITypeUsageContext` in method or expression bodies
-  - added as part of interpolated string in any method that accepts them as handlers instead of strings 
+- type
+    - from generic parameters (i.e. in `OfType<T>`, `From<T>` or `WithProp<T>` and similar)
+    - from method arguments (i.e. `OfType(type)`, `From(type)` or `WithProp(type)`)
+    - configured by `ITypeUsageContext` in method or expression bodies
+    - added as part of interpolated string in any method that accepts them as handlers instead of strings
 - from `ITypeSymbol` interfaces implemented by Roslyn API fetched from [compilation provider](#compilation-providers)
 
 Interpolated strings may require some explanation. Let's say you want to add property to a class that returns instance of `Type`.
@@ -468,8 +466,29 @@ The same is possible with `ITypeSymbol` interface. I.e. if you fetched some type
 var namedType = resolver("System.Net.IPAdress");
 classContext.WithProp<Type>("MyType", p => p.MakeComputed().WithExpressionBody(b => b.Append($"typeof({namedType})")))
 ```
-Will generate the same code and add the same using. 
+Will generate the same code and add the same using.
 
+### Generating Enums
+
+Generating enums is pretty simple with Fluent Code Generators:
+
+```csharp
+context.WithEnum(e => e.Named("OrderStatus")
+    .WithValues(["Created", "Payed", "Sent", "Completed"]));
+```
+
+Will generate following enum:
+
+```csharp
+[GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version=0.4.1.0")]
+public enum OrderStatus
+{
+    Created,
+    Payed,
+    Sent,
+    Completed,
+}
+```
 
 ### Generating classes
 
