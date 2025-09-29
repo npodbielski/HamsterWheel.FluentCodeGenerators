@@ -504,6 +504,36 @@ which will generate:
 public class HelloWorldLogger : BaseClass
 ```
 
+#### Add Interfaces
+
+To add an interface to the class call following method on `ClassContext`:
+```csharp
+classContext.ImplementsInterface<IQueryable>();
+```
+This will only add interface to the class. It will not help in any way with the implementation of such interface:
+```csharp
+public class MyClass : IQueryable
+{
+    
+}
+```
+To implement all the necessary members you need to add them to the class via `WithMethod`, `WithProp` and similar methods.
+
+#### Add Attribute
+
+It is possible to add attribute to the class:
+```csharp
+classContext.WithAttribute(i => i.From<ExcludeFromCodeCoverageAttribute>());
+```
+will add attribute to the class (and using to the file):
+```csharp
+[ExcludeFromCodeCoverage]
+public class MyClass
+{
+    
+}
+```
+
 #### Adding Primary Constructor
 
 You can add primary constructor the same way as constructor to the class. Different is the naming of the API method and of course primary constructor can not have body.
@@ -599,6 +629,184 @@ public string MyProperty => "TEST";
 ```
 Expression body can contain any arbitrary code. There are few helpers but not as much as with structure of classes. Possibilities are just to great. Regardless we still can add usings
 
+#### Add Field
+
+You can use following code to add field to the class:
+```csharp
+classContext.WithField<string>("myField")
+```
+New field will have similar definition to below:
+```csharp
+private string _myField;
+```
+Generator automatically adds underscore, `_` to name of the field. Of course if you specify name of the field as `"_myField"` new field will be having the same name. Underscore will not be added twice.
+
+Like with any other member that supports visibility modifiers, field visibility can be changed too:
+
+```csharp
+classContext.WithField<string>("myField", f => f.MakeProtected());
+```
+will generate:
+```csharp
+protected string _myField;
+```
+It is possible to make field of nullable type:
+```csharp
+f.MakeNullable();
+```
+will add `?` to the field type:
+```csharp
+protected string? _myField;
+```
+If field is of not nullable type and does not have an initializer, and nullability is enabled in the generated file (it is by default) compiler will emit warning, that non-nullable field is of null value:
+```powershell
+Non-nullable field '_myField' is uninitialized. Consider adding the 'required' modifier or declaring the field as nullable
+```
+To remedy this disable nullability warning:
+```csharp
+fieldContext.DisableNullabilityWarning();
+```
+which will generate field with `default!` initializer:
+```csharp
+private string _myField = default!;
+```
+
+#### Add Method
+You can add method to the class with simple:
+```csharp
+classContext.WithMethod("MyMethod");
+```
+This will instruct code generator to emit following code:
+```csharp
+public void MyMethod()
+{
+}
+```
+To change the return type of the method:
+```csharp
+classContext.WithMethod("MyMethod", m => m.WithReturnType<string>());
+```
+which will change the generated method to following:
+```csharp
+public string MyMethod()
+{
+}
+```
+This is invalid code and will fail to compile. To fix it add code with `return` keyword:
+```csharp
+public string MyMethod()
+{
+    return string.Empty;
+}
+```
+If you prefer expression body instead for such simple methods this may be instead:
+```csharp
+classContext.WithMethod("MyMethod", m => m.WithReturnType<string>().WithExpressionBody(b => b.Append("string.Empty")));
+```
+This will generate just one line of code:
+```csharp
+public string MyMethod() => string.Empty;
+```
+If you need parametrized method it can be done with following configuration action:
+```csharp
+methodContext.WithParameter<string>("firstParam".ToPascalCaseName())
+```
+This will add one parameter to your method:
+```csharp
+public void MyMethod(string firstParam)
+```
+You can add as many parameters as you want to method like that.
+
+Very often in modern C# code methods are async instead. To generate such method you can just call `MakeAsync`:
+```csharp
+methodContext.MakeAsync()
+```
+This will change the return type of the method and add `async` keyword to the method definition:
+```csharp
+public async Task MyMethod()
+```
+For non-void methods it will change the definition to `Task<ReturnType>` instead.
+```csharp
+methodContext.WithReturnType<int>().MakeAsync()
+```
+will result in:
+```csharp
+public async Task<int> MyMethod()
+```
+If you need cancellation support in your async method add `WithCancellation()`:
+```csharp
+methodContext.WithReturnType<int>().MakeAsync().WithCancellation()
+```
+will generate:
+```csharp
+public async Task<int> MyMethod(CancellationToken cancellationToken)
+```
+
+If your method have parameters, you will want to reference them in the body of the method:
+```csharp
+methodContext.WithReturnType<int>()
+    .WithParameter<int>("intValue".ToCamelCaseName())
+    .WithBody(b => b.AppendReturn(b.ParametersNames[0]))
+```
+Above code will generate method that returns its parameter value:
+```csharp
+public int MyMethod(int intValue)
+{
+    return intValue;
+}
+```
+
+#### Sealed, Partial, Abstract and Static classes
+
+You can mark class as static. This is possible to almost every member too. In example:
+```csharp
+classContext.MakeStatic();
+```
+will add `static` keyword:
+```csharp
+public static class MyClass
+{
+    
+}
+```
+This is very similar to `partial`, `abstract` and `sealed` keywords:
+```csharp
+classContext.MakePartial();
+public partial MyClass
+{
+    
+}
+```
+```csharp
+classContext.MakeAbstract();
+public abstract MyClass
+{
+    
+}
+```
+```csharp
+classContext.MakeSealed();
+public sealed MyClass
+{
+    
+}
+```
+
+#### Add arbitrary code
+
+Not all the C# features are supported by fluent API. That would be very complicated, almost impossible even, to write. To support those other cases (in example to generate indexers) `WithCode` method is available for use:
+```csharp
+classContext.WithCode("public string this[int index]{ get => _collectionField[index]; }")
+```
+will generate indexer in generated class:
+```csharp
+public class MyClass
+{
+    public string this[int index]{ get => _collectionField[index]; }
+}
+```
+
+
 ### Change visibility modifier
 
 By default, everything generated by fluent API is public. But you can change visibility modifier of every class or enum or every member that supports it. In example for class to make it internal:
@@ -643,9 +851,130 @@ private string MyProperty { get; set; }
 
 
 # Reporting diagnostics
+
+In some cases it may be desirable to notify user of your code generator about something. It may be just information, a warning or error message with explanation what is wrong. For example:
+```csharp
+[Generator(LanguageNames.CSharp)]
+public class DemoSolutionIncrementalGenerator : IIncrementalGenerator
+{
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        var additionalFilesProvider = {... snip ...};
+        context.RegisterSourceOutput(additionalFilesProvider,
+            (pc, files) =>
+            {
+                pc.ReportException(new AccessViolationException());
+                {... snip ...}
+            });
+    }
+}
+```
+will cause build to output:
+```text
+1>CSC: Error exception : Attempted to read or write protected memory. This is often an indication that other memory is corrupt.
+```
+which does not make much sense in case of code generator, but you can use any type that inherits from `Exception`.
+
+Warning and information are similar methods:
+```csharp
+pc.ReportWarning("You should not use this generator in production code");
+pc.ReportInformation("I am DemoSolutionIncrementalGenerator");
+```
+Warning will appear in the console as in your IDE view:
+```text
+1>CSC: Warning warning : You should not use this generator in production code
+```
+Information will only appear in the console:
+```text
+info information: I am DemoSolutionIncrementalGenerator
+```
+
 # Sharing pieces of logic
-## Sharing via CodeChunks
+
+If you will be working on bigger project then sooner or later you will find yourself in a place when some pieces of code or logic will be shared by multiple classes. To some extent it is possible to achieve by common code: i.e. abstract base class. But not always. For example you will be generating dozens of endpoints for your api and all of them will have `Path` and `HttpMethod` properties. Beside using extension methods for `IClassContext` or any other Fluent API context, it is natively supported by FluentCodeGenerators library via:
+- contexts configurators that implements `IContextConfigurator<TContext>` interface 
+- code chunks that implements `ICodeChunk` interface directly or indirectly
+
+
 ## Sharing via Configurators
+
+If you want to add several members to several classes you can use `IContextConfigurator` interface. In example let us consider following implementation:
+```csharp
+public class ClassEndpointConfigurator : IContextConfigurator<IClassContext>
+{
+    public void Configure(IClassContext context)
+    {
+        context.WithProp<string>("Path");
+        context.WithProp<HttpMethod>("HttpMethod");
+    }
+}
+```
+
+Using this configurator in following way:
+```csharp
+classContext.ConfigureUsing<ClassEndpointConfigurator>();
+```
+will generate the same two properties on each class that was generated using such configurator:
+```csharp
+public class MyClass
+{
+    public string Path { get; set; }
+    public HttpMethod HttpMethod { get; set; }
+}
+```
+Of course sometimes there is a need to have shared logic that does differ implementation based on some parameters. You can do this via passing parameters to configurator:
+```csharp
+public class ClassEndpointConfigurator(string nameOfTheClass) : IContextConfigurator<IClassContext>
+{
+    public void Configure(IClassContext context)
+    {
+        var httpMethodType = typeof(HttpMethod);
+        if (nameOfTheClass.StartsWith("Get"))
+        {
+            context.WithProp<string>("Path");
+            context.WithProp<HttpMethod>("HttpMethod",
+                p => p.WithInitializer(b => b.Append($"{httpMethodType}.{nameof(HttpMethod.Get)}")));
+        }
+        else
+        {
+            context.WithProp<string>("Path");
+            context.WithProp<HttpMethod>("HttpMethod");
+        }
+    }
+}
+```
+And new configurator can be used in very similar way:
+```csharp
+classContext.ConfigureUsing(new ClassEndpointConfigurator("GetMyEndpoint"));
+```
+Context configurators can be used for any type of context. Not only for classes but for enums, methods, properties, files, namespaces, everything that inherits from `IContext` interface.
+
+## Sharing via CodeChunks
+
+In some cases when full `IContextConfigurator` implementation is too much you have an access to `IMethodBodyContext` or `IExpressionBodyContext` it may be easier to implement custom code chunk. In example if you do want to share parameter name via string between `IParameterContext` and `IMethodBodyContext`
+```csharp
+public class MyCodeParameterNameChunk : BodyChunk
+{
+    public const string ParameterName = "myParameter";
+    public override bool AppendChunks(StringBuilder stringBuilder)
+    {
+        stringBuilder.Append(ParameterName);
+        return true;
+    }
+}
+
+classContext.WithMethod(m => 
+    m.WithReturnType<string>()
+        .WithParameter<string>(MyCodeParameterNameChunk.ParameterName.ToCamelCaseName())
+        .WithBody(b => b.Append($"return {new MyCodeParameterNameChunk()};")));
+```
+will emit following code:
+```csharp
+public string MyMethod(string myParameter)
+{
+    return myParameter;
+}
+```
 
 # Known issues
 
