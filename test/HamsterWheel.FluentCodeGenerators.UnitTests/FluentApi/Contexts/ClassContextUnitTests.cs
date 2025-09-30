@@ -174,6 +174,28 @@ public class ClassContextUnitTests
     }
 
     [Fact]
+    public void WithBase_WhenExtendedWithCtor_ThenCanReferencePrimaryCtorParameters()
+    {
+        //arrange
+        _sut.Named("MyException");
+        _sut.WithPrimaryCtor(pc => pc.WithParameter<string>("message"));
+        const string expected = """
+                                public class MyException(string message) : Exception(message)
+                                {
+
+                                }
+                                """;
+
+        //act
+        _sut.WithBase(b =>
+            b.From<Exception>()
+                .WithCtorCall(bcc => bcc.WithParameter(p => p.UseExpression(b.ParametersNames[0]))));
+
+        //assert
+        _classChunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
     public void WithCtor_WhenRendered_ThenHaveCtor()
     {
         //arrange

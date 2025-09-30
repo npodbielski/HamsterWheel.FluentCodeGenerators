@@ -12,8 +12,7 @@ public class FileScopedNamespaceContext(CodeBuilderContextBase previous)
     {
         var classChunk = new ClassDefinitionChunk(TypeDefinitionWithPrimaryConstructorChunk.FromName());
         FileChunks.AddType(classChunk);
-        var classContext = new ClassContext(this, classChunk);
-        classContext.WithGeneratedCodeAttr();
+        var classContext = new ClassContext(this, classChunk).WithGeneratedCodeAttr();
         configure(classContext);
         return this;
     }

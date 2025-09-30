@@ -38,6 +38,12 @@ public class FieldContext(CodeBuilderContextBase previous, FieldDefinitionChunk 
         return this;
     }
 
+    public IFieldContext SetVisibility(MemberVisibility visibility)
+    {
+        chunk.SetVisibility(visibility);
+        return this;
+    }
+
     public IFieldContext OfType(Action<ITypeUsageContext> configure)
     {
         var typeNameChunk = TypeNameChunk.Object;

@@ -11,7 +11,7 @@ namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 public class MethodBodyContext(CodeBuilderContextBase previous, AppendableChunk chunks, CamelCaseName[] parameters)
     : CodeBuilderContextBase(previous), IMethodBodyContext
 {
-    public CamelCaseName[] ParameterNames => parameters;
+    public CamelCaseName[] ParametersNames => parameters;
 
     public IBodyBuilderContext Append(ICodeChunk chunk)
     {
@@ -24,7 +24,7 @@ public class MethodBodyContext(CodeBuilderContextBase previous, AppendableChunk 
         var indentedChunks = new AppendableChunk();
         var indent = new IndentedChunk(indentedChunks);
         chunks.Append(indent);
-        action(new MethodBodyContext(this, indentedChunks, ParameterNames));
+        action(new MethodBodyContext(this, indentedChunks, ParametersNames));
         return this;
     }
 

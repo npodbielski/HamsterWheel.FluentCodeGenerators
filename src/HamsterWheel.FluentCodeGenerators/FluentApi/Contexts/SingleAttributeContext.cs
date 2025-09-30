@@ -7,6 +7,8 @@ namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 public class SingleAttributeContext(CodeBuilderContextBase previous, AttributeDefinitionChunk attributeChunk)
     : CodeBuilderContextBase(previous), ISingleAttributeContext
 {
+    private readonly CodeBuilderContextBase _previous = previous;
+
     public ISingleAttributeContext From(Action<ITypeUsageContext> configure)
     {
         var chunk = TypeNameChunk.From(typeof(Attribute), true);
@@ -18,7 +20,7 @@ public class SingleAttributeContext(CodeBuilderContextBase previous, AttributeDe
 
     public ISingleAttributeContext WithParameter(Action<IParameterValueContext> configure)
     {
-        var parameterValueChunk = ParameterValueChunk.From("");
+        var parameterValueChunk = ParameterValueChunk.From("", _previous.Settings.DefaultCulture);
         attributeChunk.AddParameter(parameterValueChunk);
         var context = new ParameterValueContext(this, parameterValueChunk)
         {

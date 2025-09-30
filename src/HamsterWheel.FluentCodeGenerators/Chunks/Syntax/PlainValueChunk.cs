@@ -1,15 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Text;
-using HamsterWheel.FluentCodeGenerators.FluentApi;
 
 namespace HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
-
-using static FluentApiSettings;
 
 public class PlainValueChunk : ICodeChunk
 {
     private readonly StringBuilder? _stringBuilder;
-    private string? _value;
+    private readonly string? _value;
 
     public PlainValueChunk(StringBuilder stringBuilder) => _stringBuilder = stringBuilder;
 
@@ -32,11 +30,13 @@ public class PlainValueChunk : ICodeChunk
         return true;
     }
 
-    public static PlainValueChunk FromObject(object value)
+    public static PlainValueChunk FromObject(object value, CultureInfo? defaultCulture = null)
     {
+        defaultCulture ??= CultureInfo.InvariantCulture;
+
         if (value is IConvertible convertible)
         {
-            return new PlainValueChunk(convertible.ToString(DefaultCulture));
+            return new PlainValueChunk(convertible.ToString(defaultCulture));
         }
 
         return new PlainValueChunk(value.ToString());

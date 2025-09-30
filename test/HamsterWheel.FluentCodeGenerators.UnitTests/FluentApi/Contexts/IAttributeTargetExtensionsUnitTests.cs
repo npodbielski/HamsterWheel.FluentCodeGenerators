@@ -2,9 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.Chunks;
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
-using HamsterWheel.FluentCodeGenerators.FluentApi;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
-using HamsterWheel.FluentCodeGenerators.Generators;
 using HamsterWheel.FluentCodeGenerators.Tokens;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
@@ -13,14 +11,13 @@ public class IAttributeTargetExtensionsUnitTests
 {
     private readonly ClassContext _sut;
     private readonly ClassDefinitionChunk _chunk;
-    private const string Version = "0.4.1.0";
+    private const string Version = "0.4.2.0";
 
     public IAttributeTargetExtensionsUnitTests()
     {
         _chunk = new ClassDefinitionChunk(TypeDefinitionWithPrimaryConstructorChunk.FromName());
         var context = new SourceCodeFileContext();
         _sut = new(context, _chunk);
-        FluentApiSettings.GeneratorAssembly = typeof(SourceCodeFileGeneratorBase).Assembly;
     }
 
     [Fact]
@@ -46,17 +43,23 @@ public class IAttributeTargetExtensionsUnitTests
     public void WithGeneratedCodeAttr_WhenAssemblyChanged_ThenHaveGeneratedCodeAttributeHaveThisAssembly()
     {
         //arrange
-        const string expected = """
-                                [GeneratedCode("HamsterWheel.FluentCodeGenerators.UnitTests", "Version=1.0.0.0")]
-                                public class MyClass
-                                {
+        const string expected = $$"""
+                                  [GeneratedCode("HamsterWheel.FluentCodeGenerators.UnitTests", "Version={{Version}}")]
+                                  public class MyClass
+                                  {
 
-                                }
-                                """;
-        FluentApiSettings.GeneratorAssembly = GetType().Assembly;
+                                  }
+                                  """;
+        ClassContext sut = new(new SourceCodeFileContext(), _chunk)
+        {
+            Settings =
+            {
+                GeneratorAssembly = GetType().Assembly
+            }
+        };
 
         //act
-        _sut.WithGeneratedCodeAttr();
+        sut.WithGeneratedCodeAttr();
 
         //assert
         _chunk.Should().RenderAs(expected);

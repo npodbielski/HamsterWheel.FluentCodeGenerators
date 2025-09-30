@@ -9,7 +9,7 @@ namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 public class ConstructorContext(CodeBuilderContextBase previous, CtorDefinitionChunk chunk)
     : CodeBuilderContextBase(previous), IConstructorContext
 {
-    public CamelCaseName[] ParametersNames => chunk.ParameterNames;
+    public CamelCaseName[] ParametersNames => chunk.ParametersNames;
 
     public IConstructorContext WithBody(Action<IMethodBodyContext>? configure = null)
     {

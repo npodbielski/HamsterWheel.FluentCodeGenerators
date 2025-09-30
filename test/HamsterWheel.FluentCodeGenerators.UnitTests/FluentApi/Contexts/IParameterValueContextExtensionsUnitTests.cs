@@ -1,4 +1,5 @@
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
+using HamsterWheel.FluentCodeGenerators.FluentApi;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 using HamsterWheel.FluentCodeGenerators.Tokens;
 
@@ -11,7 +12,7 @@ public class IParameterValueContextExtensionsUnitTests
 
     public IParameterValueContextExtensionsUnitTests()
     {
-        _chunk = ParameterValueChunk.From("2");
+        _chunk = ParameterValueChunk.From("2", FluentApiSettings.DefaultCulture);
         _sut = new ParameterValueContext(new SourceCodeFileContext(), _chunk);
     }
 

@@ -1,4 +1,5 @@
 using HamsterWheel.FluentCodeGenerators.Chunks.Member;
+using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
@@ -82,6 +83,26 @@ public class FieldContextUnitTests
 
         //act
         _sut.WithInitializer("new()");
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Theory]
+    [InlineData(MemberVisibility.Internal, "internal")]
+    [InlineData(MemberVisibility.Private, "private")]
+    [InlineData(MemberVisibility.PrivateProtected, "protected private")]
+    [InlineData(MemberVisibility.Protected, "protected")]
+    [InlineData(MemberVisibility.ProtectedInternal, "protected internal")]
+    [InlineData(MemberVisibility.Public, "public")]
+    public void SetVisibility_WhenRendered_ThenHaveCorrectVisibilityModifier(MemberVisibility visibility,
+        string expectedVisibility)
+    {
+        //arrange
+        var expected = $"{expectedVisibility} object _test;";
+
+        //act
+        _sut.SetVisibility(visibility);
 
         //assert
         _chunk.Should().RenderAs(expected);

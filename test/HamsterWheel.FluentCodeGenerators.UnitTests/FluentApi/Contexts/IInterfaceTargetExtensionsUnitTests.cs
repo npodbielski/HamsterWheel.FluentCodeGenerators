@@ -30,7 +30,7 @@ public class IInterfaceTargetExtensionsUnitTests
                        """;
 
         //act
-        _sut.WithInterface(new NameInNamespace("IMyInterface".ToPascalCaseName(), "MyNamespace".ToNamespace()));
+        _sut.ImplementsInterface(new NameInNamespace("IMyInterface".ToPascalCaseName(), "MyNamespace".ToNamespace()));
 
         //assert
         _chunk.Should().RenderAs(expected);
@@ -45,7 +45,7 @@ public class IInterfaceTargetExtensionsUnitTests
                        """;
 
         //act
-        _sut.WithInterface(new NameInNamespace("IMyInterface".ToPascalCaseName(), "MyNamespace".ToNamespace()));
+        _sut.ImplementsInterface(new NameInNamespace("IMyInterface".ToPascalCaseName(), "MyNamespace".ToNamespace()));
 
         //assert
         _sut.Usings.Should().RenderAs(expected);
@@ -63,7 +63,7 @@ public class IInterfaceTargetExtensionsUnitTests
                        """;
 
         //act
-        _sut.WithInterface(typeof(IEquatable<int>));
+        _sut.ImplementsInterface(typeof(IEquatable<int>));
 
         //assert
         _chunk.Should().RenderAs(expected);
@@ -78,7 +78,7 @@ public class IInterfaceTargetExtensionsUnitTests
                        """;
 
         //act
-        _sut.WithInterface(typeof(IEquatable<int>));
+        _sut.ImplementsInterface(typeof(IEquatable<int>));
 
         //assert
         _sut.Usings.Should().RenderAs(expected);
@@ -88,7 +88,7 @@ public class IInterfaceTargetExtensionsUnitTests
     public void WithInterfaceOfT_WhenCalledWithTypeThatIsNotInterface_ThenThrows()
     {
         //arrange
-        var action = () => _sut.WithInterface(typeof(DbConnection)); 
+        var action = () => _sut.ImplementsInterface(typeof(DbConnection)); 
 
         //act
         var exception = action.Should().Throw<ArgumentException>();
@@ -109,7 +109,7 @@ public class IInterfaceTargetExtensionsUnitTests
                        """;
 
         //act
-        _sut.WithInterface("IMyInterface");
+        _sut.ImplementsInterface("IMyInterface");
 
         //assert
         _chunk.Should().RenderAs(expected);
