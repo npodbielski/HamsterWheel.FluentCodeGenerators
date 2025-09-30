@@ -6,7 +6,7 @@ namespace HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
 
 public class ParametersDefinitionListChunk(IEnumerable<ParameterDefinitionChunk> parameters) : ICodeChunk
 {
-    public CamelCaseName[] ParameterNames => parameters.OrderBy(p => p.Order).Select(p => p.Name).ToArray();
+    public CamelCaseName[] ParameterNames => _parameters.OrderBy(p => p.Order).Select(p => p.Name).ToArray();
     private readonly List<ParameterDefinitionChunk> _parameters = [..parameters];
 
     public void Add(ParameterDefinitionChunk parameter) => _parameters.Add(parameter);

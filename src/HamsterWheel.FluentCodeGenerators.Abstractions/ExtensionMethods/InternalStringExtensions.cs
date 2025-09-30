@@ -2,11 +2,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace HamsterWheel.FluentCodeGenerators;
 
-internal static class StringExtensions
+internal static class InternalStringExtensions
 {
     public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? str) => string.IsNullOrWhiteSpace(str);
     
-    public static string? ToSingular(this string? str)
+    public static string ToSingular(this string? str)
     {
         if (str.IsNullOrWhiteSpace())
         {

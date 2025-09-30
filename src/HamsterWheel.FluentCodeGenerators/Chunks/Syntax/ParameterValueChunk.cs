@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using HamsterWheel.FluentCodeGenerators.Exceptions;
 
@@ -35,9 +36,9 @@ public class ParameterValueChunk(ICodeChunk valueChunk)
 
     public void SetValue(ICodeChunk newValueChunk) => _valueChunk = newValueChunk;
 
-    public void SetValue(object newValue) => _valueChunk = PlainValueChunk.FromObject(newValue);
+    public void SetValue(object newValue, CultureInfo cultureInfo) => _valueChunk = PlainValueChunk.FromObject(newValue, cultureInfo);
 
-    public static ParameterValueChunk From(object value) => From(PlainValueChunk.FromObject(value));
+    public static ParameterValueChunk From(object value, CultureInfo cultureInfo) => From(PlainValueChunk.FromObject(value, cultureInfo));
 
     public static ParameterValueChunk From(ICodeChunk value) => new(value);
 }

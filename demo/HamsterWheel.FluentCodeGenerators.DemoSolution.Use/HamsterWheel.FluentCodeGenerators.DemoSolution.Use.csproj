@@ -9,14 +9,12 @@
         <RootNamespace>HamsterWheel.FluentCodeGenerators.Demo.Use</RootNamespace>
 
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <IsRoslynComponent>true</IsRoslynComponent>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <IsPackable>false</IsPackable>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="loggers\HelloWorldLogger.txt"/>
-        <AdditionalFiles Include="loggers\HelloWorldLogger.txt"/>
+        <AdditionalFiles Include="loggers\*.txt"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -24,9 +22,4 @@
                           OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.0" GeneratePathProperty="true" PrivateAssets="all" />
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.0" GeneratePathProperty="true" PrivateAssets="all" />
-    </ItemGroup>
-    
 </Project>

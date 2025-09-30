@@ -12,7 +12,7 @@ public class ParameterValueContextUnitTests
 
     public ParameterValueContextUnitTests()
     {
-        _chunk = ParameterValueChunk.From("2");
+        _chunk = ParameterValueChunk.From("2", FluentApiSettings.DefaultCulture);
         _sut = new ParameterValueContext(new SourceCodeFileContext(), _chunk);
     }
 
@@ -73,7 +73,7 @@ public class ParameterValueContextUnitTests
     {
         //arrange
         var expected = "3213232312,123123";
-        FluentApiSettings.DefaultCulture = new CultureInfo("pl-PL");
+        _sut.Settings.DefaultCulture = new CultureInfo("pl-PL");
 
         //act
         _sut.UseConst(3213232312.123123);

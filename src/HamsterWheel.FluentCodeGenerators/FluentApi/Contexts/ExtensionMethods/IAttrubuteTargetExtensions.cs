@@ -1,5 +1,6 @@
 using System.CodeDom.Compiler;
 using HamsterWheel.FluentCodeGenerators.Exceptions;
+using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts.Base;
 using HamsterWheel.FluentCodeGenerators.Tokens;
 
 namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
@@ -9,10 +10,18 @@ using static FluentApiSettings;
 public static class IAttributeTargetExtensions
 {
     public static TContext WithGeneratedCodeAttr<TContext>(this TContext context)
-        where TContext : IAttributeTarget<IContext>, IContext =>
-        (TContext)context.WithAttribute(a => a.From<GeneratedCodeAttribute>()
-            .WithParameter(p => p.UseStringValue(GeneratorAssembly.FullName.Split(',')[0]))
-            .WithParameter(p => p.UseStringValue(GeneratorAssembly.FullName.Split(',')[1])));
+        where TContext : IAttributeTarget<IContext>, IContext
+    {
+        var settings = (context as CodeBuilderContextBase)?.Settings ?? Snapshot();
+        if (settings.AddGeneratedCodeAttribute)
+        {
+            return (TContext)context.WithAttribute(a => a.From<GeneratedCodeAttribute>()
+                .WithParameter(p => p.UseStringValue(settings.GeneratorAssembly.FullName.Split(',')[0]))
+                .WithParameter(p => p.UseStringValue(settings.GeneratorAssembly.FullName.Split(',')[1])));
+        }
+
+        return context;
+    }
 
     public static TContext WithAttribute<TContext>(this TContext context, INameInNamespaceToken type,
         Action<ISingleAttributeContext>? configure = null)

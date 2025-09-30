@@ -15,7 +15,7 @@ public class CtorDefinitionChunk(
     private readonly ParametersDefinitionListChunk _ctorParametersChunk =
         ctorParams ?? new ParametersDefinitionListChunk([]);
 
-    public CamelCaseName[] ParameterNames => _ctorParametersChunk.ParameterNames;
+    public CamelCaseName[] ParametersNames => _ctorParametersChunk.ParameterNames;
     public ExpressionBodyChunks ExpressionBodyChunk { get; } = new();
     private string? TypeName { get; set; }
     public void AsExpressionBody() => _haveExpressionBody = true;
@@ -44,13 +44,7 @@ public class CtorDefinitionChunk(
         return true;
     }
 
-    public void SetName(TypeDefinitionWithPrimaryConstructorChunk name)
-    {
-        TypeName = name.TypeName;
-    }
+    public void SetName(TypeDefinitionWithPrimaryConstructorChunk name) => TypeName = name.TypeName;
 
-    public void AddParameter(ParameterDefinitionChunk newParam)
-    {
-        _ctorParametersChunk.Add(newParam);
-    }
+    public void AddParameter(ParameterDefinitionChunk newParam) => _ctorParametersChunk.Add(newParam);
 }

@@ -14,7 +14,7 @@ public class AdditionalTextSelectorsUnitTests
         var additionalFile = new TestAdditionalFile("/root/files/compilation.txt", expected);
 
         //act
-        var content = AdditionalTextSelectors.GetFileContent(additionalFile, CancellationToken.None);
+        var content = AdditionalTextSelectors.FileContent(additionalFile, CancellationToken.None);
 
         //assert
         content.Should().Be(expected);
@@ -41,7 +41,7 @@ public class AdditionalTextSelectorsUnitTests
         var additionalFile = new TestAdditionalFile("/root/files/compilation.txt", content);
 
         //act
-        var data = AdditionalTextSelectors.GetFileNameAndContent(additionalFile, CancellationToken.None);
+        var data = AdditionalTextSelectors.FileNamePathAndContent(additionalFile, CancellationToken.None);
 
         //assert
         data.Should().NotBeNull();
