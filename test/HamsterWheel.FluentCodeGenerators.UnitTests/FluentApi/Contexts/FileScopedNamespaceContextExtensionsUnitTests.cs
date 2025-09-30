@@ -6,7 +6,7 @@ namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
 public class FileScopedNamespaceContextExtensionsUnitTests
 {
     private readonly IFileScopedNamespaceContext _sut = new SourceCodeFileContext().WithFileScopedNamespace("test");
-    private const string Version = "0.4.1.0";
+    private const string Version = "0.4.2.0";
 
     [Fact]
     public void WithClass_WhenNameAsStringPassed_ThenGeneratesCorrectFile()
