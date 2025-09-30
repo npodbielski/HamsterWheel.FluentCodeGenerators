@@ -6,10 +6,10 @@ This project is part of Hamster Wheel platform, dynamically configurable, extens
 
 ## Reference links
 
-- [Hamster Wheel](https://podbielski.it/why-hamster-wheel)
 - [Roslyn Incremental Generators](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.md)
 - [Roslyn Source Generators](https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/#source-generators)
 - [Roslyn Incremental Generators Cookbook](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.cookbook.md)
+- [Hamster Wheel](https://internetexception.com/why-hamster-wheel/)
 
 ## What's contained in this project
 
