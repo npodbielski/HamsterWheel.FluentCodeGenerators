@@ -19,7 +19,7 @@ before_script:
   - 'dotnet nuget add source "${CI_API_V4_URL}/groups/69/-/packages/nuget/index.json" --name group --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text'
   - 'dotnet restore FluentCodeGenerators.slnx --packages $NUGET_PACKAGES_DIRECTORY'
   # Configure nuget.org package registry with pushing creds
-  - 'dotnet nuget update source "https://api.nuget.org/v3/index.json" --name nuget --username npodbielski --password $nuget_key --store-password-in-clear-text'
+  - 'dotnet nuget update source nuget --username npodbielski --password $nuget_key --store-password-in-clear-text'
 
 build:
   stage: build
