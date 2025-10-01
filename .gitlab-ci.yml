@@ -19,7 +19,7 @@ before_script:
   - 'dotnet nuget add source "${CI_API_V4_URL}/groups/69/-/packages/nuget/index.json" --name group --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text'
   - 'dotnet restore FluentCodeGenerators.slnx --packages $NUGET_PACKAGES_DIRECTORY'
   # Configure nuget.org package registry with pushing creds
-  - 'dotnet nuget add source "https://api.nuget.org/v3/index.json" --name nuget_push --username npodbielski --password $nuget_key --store-password-in-clear-text'
+  - 'dotnet nuget update source "https://api.nuget.org/v3/index.json" --name nuget --username npodbielski --password $nuget_key --store-password-in-clear-text'
 
 build:
   stage: build
@@ -70,5 +70,5 @@ package:
     - dotnet nuget push "src/**/bin/Release/*.nupkg" --source gitlab
     #skip pushing demo package to feed since it is just for demo so we do not need it in production release
     # Push the package to the Nuget.org feed
-    - dotnet nuget push "src/**/bin/Release/*.nupkg" --source nuget_push
+    - dotnet nuget push "src/**/bin/Release/*.nupkg" --source nuget
   environment: production
