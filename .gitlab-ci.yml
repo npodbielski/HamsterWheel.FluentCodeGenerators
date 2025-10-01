@@ -67,5 +67,5 @@ package:
     # Push the package to the project's package registry
     - dotnet nuget push "src/**/bin/Release/*.nupkg" --source gitlab
     # Push the package to the Nuget.org feed
-    - dotnet nuget push "src/**/bin/Release/*.nupkg" -source https://api.nuget.org/v3/index.json --api-key $nuget_key
+    - dotnet nuget push "src/**/bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key $nuget_key
   environment: production
