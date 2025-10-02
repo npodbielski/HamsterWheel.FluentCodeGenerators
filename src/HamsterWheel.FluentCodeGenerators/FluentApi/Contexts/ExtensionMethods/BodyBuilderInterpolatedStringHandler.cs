@@ -13,10 +13,7 @@ public readonly struct BodyBuilderInterpolatedStringHandler(int literalLength, i
     // Storage for the built-up string
     private readonly StringBuilder _builder = new(literalLength);
 
-    public void AppendLiteral(string s)
-    {
-        _builder.Append(s);
-    }
+    public void AppendLiteral(string s) => _builder.Append(s);
 
     public void AppendFormatted<T>(T t)
     {
