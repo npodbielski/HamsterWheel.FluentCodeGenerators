@@ -8,6 +8,7 @@ This project is part of Hamster Wheel platform, dynamically configurable, extens
 
 ## Reference links
 
+- [Writing simple C# source code generator with Fluent API](https://internetexception.com/2025/10/02/writing-simple-c-source-code-generator/)
 - [Roslyn Incremental Generators](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.md)
 - [Roslyn Source Generators](https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/#source-generators)
 - [Roslyn Incremental Generators Cookbook](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.cookbook.md)
