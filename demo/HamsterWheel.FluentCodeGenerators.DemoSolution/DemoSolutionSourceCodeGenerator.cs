@@ -15,9 +15,9 @@ public class DemoSolutionSourceCodeGenerator(
     {
         foreach (var file in files)
         {
-            context.WithClass(Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file.FileName)),
+            context.WithClass(Path.GetFileNameWithoutExtension(file.FileName),
                 c => c.WithMethod("Log",
-                        m => m.WithBody(b => b.Append($"Console.WriteLine({file.Content.TripleQuote()});")))
+                    m => m.WithBody(b => b.Append($"Console.WriteLine({file.Content.TripleQuote()});")))
             );
         }
     }

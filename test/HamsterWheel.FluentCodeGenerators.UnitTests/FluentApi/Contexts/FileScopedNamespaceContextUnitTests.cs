@@ -5,21 +5,21 @@ namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
 
 public class FileScopedNamespaceContextUnitTests
 {
-    private const string Version = "0.4.2.0";
+    private string Version => this.GetThisObjectTypeAssemblyVersion();
 
     [Fact]
     public void WithClass_WhenCalled_ThenGeneratesClass()
     {
         //arrange
-        const string expected = $$"""
-                                  using System.CodeDom.Compiler;
+        var expected = $$"""
+                         using System.CodeDom.Compiler;
 
-                                  [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
-                                  public class NewClass
-                                  {
+                         [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
+                         public class NewClass
+                         {
 
-                                  }
-                                  """;
+                         }
+                         """;
         var sut = new FileScopedNamespaceContext(new SourceCodeFileContext());
 
         //act
@@ -33,14 +33,14 @@ public class FileScopedNamespaceContextUnitTests
     public void WithEnum_WhenCalled_ThenGeneratesEnum()
     {
         //arrange
-        const string expected = $$"""
-                                  using System.CodeDom.Compiler;
+        var expected = $$"""
+                         using System.CodeDom.Compiler;
 
-                                  [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
-                                  public enum MyEnum
-                                  {
-                                  }
-                                  """;
+                         [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
+                         public enum MyEnum
+                         {
+                         }
+                         """;
         var sut = new FileScopedNamespaceContext(new SourceCodeFileContext());
 
         //act

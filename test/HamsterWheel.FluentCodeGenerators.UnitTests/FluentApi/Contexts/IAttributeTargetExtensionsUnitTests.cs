@@ -11,7 +11,7 @@ public class IAttributeTargetExtensionsUnitTests
 {
     private readonly ClassContext _sut;
     private readonly ClassDefinitionChunk _chunk;
-    private const string Version = "0.4.2.0";
+    private string Version => this.GetThisObjectTypeAssemblyVersion();
 
     public IAttributeTargetExtensionsUnitTests()
     {
@@ -24,13 +24,13 @@ public class IAttributeTargetExtensionsUnitTests
     public void WithGeneratedCodeAttr_WhenRendered_ThenHaveGeneratedCodeAttribute()
     {
         //arrange
-        const string expected = $$"""
-                                  [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
-                                  public class MyClass
-                                  {
+        var expected = $$"""
+                         [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{Version}}")]
+                         public class MyClass
+                         {
 
-                                  }
-                                  """;
+                         }
+                         """;
 
         //act
         _sut.WithGeneratedCodeAttr();
@@ -43,13 +43,13 @@ public class IAttributeTargetExtensionsUnitTests
     public void WithGeneratedCodeAttr_WhenAssemblyChanged_ThenHaveGeneratedCodeAttributeHaveThisAssembly()
     {
         //arrange
-        const string expected = $$"""
-                                  [GeneratedCode("HamsterWheel.FluentCodeGenerators.UnitTests", "Version={{Version}}")]
-                                  public class MyClass
-                                  {
+        string expected = $$"""
+                            [GeneratedCode("HamsterWheel.FluentCodeGenerators.UnitTests", "Version={{Version}}")]
+                            public class MyClass
+                            {
 
-                                  }
-                                  """;
+                            }
+                            """;
         ClassContext sut = new(new SourceCodeFileContext(), _chunk)
         {
             Settings =
