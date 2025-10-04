@@ -1,3 +1,5 @@
+![Latest Release](https://internetexception.com/wp-content/uploads/fluent-code-generator-badges/release.svg) ![Status](https://internetexception.com/wp-content/uploads/fluent-code-generator-badges/pipeline.svg) ![Coverage](https://internetexception.com/wp-content/uploads/fluent-code-generator-badges/coverage.svg)
+
 # Introduction
 
 Fluent Code Generators provides fluent API for [Roslyn Source Generators](https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/#source-generators) that enable developers to write custom source code generators in more predictable and controllable way. Fluent Code Generators packages are compatible with any version of .NET that is supported by [Roslyn Incremental Generators](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.md). Packages are distributed as .NET Standard.
