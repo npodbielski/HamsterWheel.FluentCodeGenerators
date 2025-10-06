@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="loggers\*.txt"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Demo" Version="0.4.2-alpha-6670" />
+    </ItemGroup>
+
+</Project>

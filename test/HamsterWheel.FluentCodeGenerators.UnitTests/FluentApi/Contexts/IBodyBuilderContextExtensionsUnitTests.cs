@@ -1,0 +1,211 @@
+using System.Data.Common;
+using System.Text;
+using HamsterWheel.FluentCodeGenerators.Chunks;
+using HamsterWheel.FluentCodeGenerators.Chunks.Body;
+using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
+using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
+using HamsterWheel.FluentCodeGenerators.Tokens;
+
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
+
+public class IBodyBuilderContextExtensionsUnitTests
+{
+    private readonly MethodBodyContext _sut;
+    private readonly AppendableChunk _chunk;
+
+    public IBodyBuilderContextExtensionsUnitTests()
+    {
+        _chunk = new AppendableChunk();
+        _sut = new MethodBodyContext(new SourceCodeFileContext(), _chunk, []);
+    }
+
+    [Fact]
+    public void Append_WhenCalledWithInterpolatedStringWithNameInNamespace_ThenRendersCorrectly()
+    {
+        //arrange
+        var expected = "DbConnectionStringBuilder r = new DbConnectionStringBuilder();";
+        var token = NameInNamespace.From(nameof(DbConnectionStringBuilder), typeof(DbConnectionStringBuilder).Namespace!);
+
+        //act
+        _sut.Append($"{token} r = new DbConnectionStringBuilder();");
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void Append_WhenCalledWithInterpolatedStringWithNameInNamespace_ThenAddsUsing()
+    {
+        //arrange
+        const string expected = "using System.Data.Common;";
+        var token = NameInNamespace.From(nameof(DbConnectionStringBuilder), typeof(DbConnectionStringBuilder).Namespace!);
+
+        //act
+        _sut.Append($"{token} r = new DbConnectionStringBuilder();");
+
+        //assert
+        _sut.Usings.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void Append_WhenCalledWithInterpolatedStringWithType_ThenRendersCorrectly()
+    {
+        //arrange
+        var expected = "DbConnectionStringBuilder r = new DbConnectionStringBuilder();";
+        var type = typeof(DbConnectionStringBuilder);
+
+        //act
+        _sut.Append($"{type} r = new DbConnectionStringBuilder();");
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void Append_WhenCalledWithInterpolatedStringWithType_ThenAddsUsing()
+    {
+        //arrange
+        var expected = "using System.Data.Common;";
+        var type = typeof(DbConnectionStringBuilder);
+
+        //act
+        _sut.Append($"{type} r = new DbConnectionStringBuilder();");
+
+        //assert
+        _sut.Usings.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void Append_WhenCalledWithInterpolatedStringWithNamedChunk_ThenRendersCorrectly()
+    {
+        //arrange
+        var expected = "Test r = new();";
+        var type = new ClassDefinitionChunk(TypeDefinitionWithPrimaryConstructorChunk.FromName("Test"));
+
+        //act
+        _sut.Append($"{type} r = new();");
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void Append_WhenCalledWithInterpolatedStringWithCodeChunk_ThenRendersCorrectly()
+    {
+        //arrange
+        var expected = """
+                       var i = 0;
+                       //shared code
+                       """;
+        var type = new TestCodeChunk();
+
+        //act
+        _sut.Append($"{type}//shared code");
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void AppendTypeUsage_WhenCalled_ThenRendersCorrectly()
+    {
+        //arrange
+        var expected = """
+                       IQueryable<decimal>[]
+                       """;
+
+        //act
+        _sut.AppendTypeUsage(t=>t.From(typeof(IQueryable<>)).WithGenericArgument<decimal>().MakeArray());
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void AppendTypeUsage_WhenCalled_ThenAddsUsings()
+    {
+        //arrange
+        var expected = """
+                       using System;
+                       using System.Linq;
+                       """;
+
+        //act
+        _sut.AppendTypeUsage(t=>t.From(typeof(IQueryable<>)).WithGenericArgument<decimal>().MakeArray());
+
+        //assert
+        _sut.Usings.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void Append_WhenCalled_ThenAddsUsings()
+    {
+        //arrange
+        var expected = """
+                       var i = 0;
+                       """;
+
+        //act
+        _sut.Append("var i = 0;");
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void AppendLine_WhenCalledWithInterpolatedString_ThenRendersCorrectly()
+    {
+        //arrange
+        var expected = """
+                       
+                       Test r = new();
+                       
+                       """;
+        var type = new ClassDefinitionChunk(TypeDefinitionWithPrimaryConstructorChunk.FromName("Test"));
+
+        //act
+        _sut.AppendLine($"{type} r = new();");
+
+        //assert
+        _chunk.Should().RenderAs(expected, noTrim: true);
+    }
+
+    [Fact]
+    public void AppendLine_WhenCalledWithString_ThenRendersCorrectly()
+    {
+        //arrange
+        var expected = """
+                       Test r = new();
+                       """;
+
+        //act
+        _sut.AppendLine(expected);
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void AppendComment_WhenCalled_ThenRendersCorrectly()
+    {
+        //arrange
+        var expected = """
+                       //comment
+                       """;
+
+        //act
+        _sut.AppendComment("comment");
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+}
+
+public class TestCodeChunk : ICodeChunk
+{
+    public bool AppendChunks(StringBuilder stringBuilder)
+    {
+        stringBuilder.AppendLine("var i = 0;");
+        return true;
+    }
+}

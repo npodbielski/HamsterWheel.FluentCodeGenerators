@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+
+        <IsRoslynComponent>true</IsRoslynComponent>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.2" GeneratePathProperty="true" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.2" GeneratePathProperty="true" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="$(OutputPath)\**\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="False" />
+        <Content Include="$(PKGHamsterWheel_FluentCodeGenerators)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="False" />
+        <Content Include="$(PKGHamsterWheel_FluentCodeGenerators_Abstractions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="False" />
+    </ItemGroup>
+
+</Project>

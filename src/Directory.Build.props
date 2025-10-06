@@ -1,0 +1,15 @@
+<Project>
+
+    <Import Project="../Nuget.props"/>
+    
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>$([System.String]::Copy('$(AssemblyName)').Replace('.Abstractions','')).UnitTests</_Parameter1> <!-- We use the value of AssemblyName to declare the value of the attribute -->
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>$([System.String]::Copy('$(AssemblyName)').Replace('.Abstractions',''))</_Parameter1> <!-- We use the value of AssemblyName to declare the value of the attribute -->
+        </AssemblyAttribute>
+    </ItemGroup>
+
+</Project>
+
