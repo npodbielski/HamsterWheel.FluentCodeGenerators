@@ -136,7 +136,7 @@ public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSym
     public bool IsFileLocal { get; }
     public IEnumerable<string> MemberNames { get; }
     public ImmutableArray<ITypeParameterSymbol> TypeParameters { get; }
-    public ImmutableArray<ITypeSymbol> TypeArguments { get; }
+    public ImmutableArray<ITypeSymbol> TypeArguments { get; } = [];
     public ImmutableArray<NullableAnnotation> TypeArgumentNullableAnnotations { get; }
 
     ITypeSymbol ITypeSymbol.OriginalDefinition => OriginalDefinition;
