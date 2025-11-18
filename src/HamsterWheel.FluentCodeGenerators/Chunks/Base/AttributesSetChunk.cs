@@ -5,9 +5,9 @@ namespace HamsterWheel.FluentCodeGenerators.Chunks.Base;
 
 public abstract class AttributesSetChunk(bool inline = true) : ICodeChunk
 {
-    private readonly AttributesDefinitionChunk _attributes = new(inline);
+    protected AttributesDefinitionChunk Attributes { get; } = new(inline);
 
-    public virtual bool AppendChunks(StringBuilder stringBuilder) => _attributes.AppendChunks(stringBuilder);
+    public virtual bool AppendChunks(StringBuilder stringBuilder) => Attributes.AppendChunks(stringBuilder);
 
-    public void AddAttribute(AttributeDefinitionChunk newAttrs) => _attributes.Add(newAttrs);
+    public void AddAttribute(AttributeDefinitionChunk newAttrs) => Attributes.Add(newAttrs);
 }

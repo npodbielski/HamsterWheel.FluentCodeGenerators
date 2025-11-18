@@ -5,7 +5,6 @@
         <LangVersion>latestmajor</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
 
         <IsRoslynComponent>true</IsRoslynComponent>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
