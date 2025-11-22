@@ -20,7 +20,7 @@ public static class INameExtensions
 
     public static PascalCaseName ToPlural(this IName name) => new(name.ToString().ToPlural());
 
-    public static PascalCaseName ToSingular(this IName name) => new(name.ToString().ToSingular()!);
+    public static PascalCaseName ToSingular(this IName name) => new(name.ToString().ToSingular());
 
     public static NameInNamespace InNamespace(this IName name, INamespace targetNamespace) =>
         new(name.ToPascalCase(), new Namespace(targetNamespace.NamespaceAsString));

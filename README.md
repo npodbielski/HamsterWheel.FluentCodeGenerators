@@ -2,13 +2,13 @@
 
 # Introduction
 
-Fluent Code Generators provides fluent API for [Roslyn Source Generators](https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/#source-generators) that enable developers to write custom source code generators in more predictable and controllable way. Fluent Code Generators packages are compatible with any version of .NET that is supported by [Roslyn Incremental Generators](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.md). Packages are distributed as .NET Standard.
-This project is part of Hamster Wheel platform, dynamically configurable, extensible API that aim to be easy to use, secure solution for data manipulation of your choice. It is intended to be used for personal projects, hobbyist and small companies. 
+Fluent Code Generators provide fluent API for [Roslyn Source Generators](https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/#source-generators) that enable developers to write custom source code generators in a more predictable and controllable way. Fluent Code Generators packages are compatible with any version of .NET that is supported by [Roslyn Incremental Generators](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.md). Packages are distributed as .NET Standard.
+This project is part of Hamster Wheel platform, a dynamically configurable, extensible API that aims to be an easy-to-use, secure solution for data manipulation of your choice. It is intended to be used for personal projects, hobbyists and small companies. 
 
 
 ## Reference links
 
-- [Writing simple C# source code generator with Fluent API](https://internetexception.com/2025/10/02/writing-simple-c-source-code-generator/)
+- [Writing a simple C # source code generator with Fluent API](https://internetexception.com/2025/10/02/writing-simple-c-source-code-generator/)
 - [Roslyn Incremental Generators](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.md)
 - [Roslyn Source Generators](https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/#source-generators)
 - [Roslyn Incremental Generators Cookbook](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.cookbook.md)
@@ -18,7 +18,7 @@ This project is part of Hamster Wheel platform, dynamically configurable, extens
 
 This project contains of two main parts:
 - main package: HamsterWheel.FluentCodeGenerators that is Incremental Code Generators Fluent API
-- and HamsterWheel.FluentCodeGenerators.Abstractions package that can be used to further develop extensions for APIs and functionalities missing from main package
+- and HamsterWheel.FluentCodeGenerators.Abstractions package that can be used to further develop extensions for APIs and functionalities missing from the main package
 
 Navigation:
 - [How to use](#how-to-use)
@@ -54,37 +54,37 @@ Navigation:
 
 # How to use
 
-Below you can find instructions how to get you started using Flunt Code Generators.
+Below you can find instructions on how to get you started using Flunt Code Generators.
 
 ## Getting started
 
-To create you own Nuget package with code generator first you must prepare new project that can be used as Roslyn Analyzer/Source Generator. This project must use .NET Standard 2.0 Framework moniker.
+To create your own Nuget package with code generator, first you must prepare a new project that can be used as Roslyn Analyzer/Source Generator. This project must use the.NET Standard 2.0 Framework moniker.
 
 ```xml
 <TargetFramework>netstandard2.0</TargetFramework>
 ```
 
-Then you must install package in this project.
+Then you must install the package in this project.
 
 ```xml
 <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.0" PrivateAssets="all" />
 ```
 
 
-Any Roslyn custom component needs to be marked as one in its `.csproj` file. You need to add following properties to `<PropertyGroup>` section:
+Any Roslyn custom component needs to be marked as one in its `.csproj` file. You need to add the following properties to `<PropertyGroup>` section:
 
 ```xml
 <IsRoslynComponent>true</IsRoslynComponent>
 <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 ```
 
-Since this will be code generator package (or Analyzer how it is called by Roslyn) and it is not meant to be dependency nuget package it is good to add following property:
+Since this will be a code generator package (or Analyzer how it is called by Roslyn) and it is not meant to be a dependency nuget package, it is good to add the following property:
 
 ```xml
 <IncludeBuildOutput>false</IncludeBuildOutput>
 ```
 
-This will disable bundling its `.dll` file in `lib` directory of Nuget package. Instead, we need to add output dll to `analyzers/dotnet/cs` directory. To do that add new `ItemGroup` in project file: 
+This will disable bundling its `.dll` file in `lib` directory of Nuget package. Instead, we need to add output dll to `analyzers/dotnet/cs` directory. To do that add new `ItemGroup` in a project file: 
 
 ```xml
 <ItemGroup>
@@ -92,14 +92,14 @@ This will disable bundling its `.dll` file in `lib` directory of Nuget package. 
 </ItemGroup>
 ```
 
-Unfortunately, this is not enough. Due to how analyzers works, in some execution it may work on other it will cause a warning i.e.:
+Unfortunately, this is not enough. Due to how analyzers work, in some execution it may work on other it will cause a warning i.e.:
 
 ```shell
 CSC : warning CS8784: Generator 'DemoIncrementalGenerator' failed to initialize. It will not contribute to the output and compilation errors may occur as a result. Exception was of type 'FileNotFoundException' with message 'Could not load file or assembly 'HamsterWheel.FluentCodeGenerators, Version=0.4.1.0, Culture=neutral, PublicKeyToken=null'. The system cannot find the file specified. [/builds/hamster-wheel/fluentcodegenerators/demo/HamsterWheel.FluentCodeGenerators.Demo.Use/HamsterWheel.FluentCodeGenerators.Demo.Use.csproj]
 ```
 
-To fix that we need to bundle `HamsterWheel.FluentCodeGenerators` and `HamsterWheel.FluentCodeGenerators.Abstractions` too in the same package. There are other possibilities (i.e. bundling other assemblies in your assembly) but it requires a bit more work.
-To bundle just dependencies `.dll`s add following properties to all your referenced packages `GeneratePathProperty="true"` so i.e. your new project section for packages should look like this:
+To fix that, we need to bundle `HamsterWheel.FluentCodeGenerators` and `HamsterWheel.FluentCodeGenerators.Abstractions` too in the same package. There are other possibilities (i.e. bundling other assemblies in your assembly), but it requires a bit more work.
+To bundle just dependencies `.dll`s add the following properties to all your referenced packages `GeneratePathProperty="true"` so i.e. your new project section for packages should look like this:
 
 ```xml
 <ItemGroup>
@@ -115,7 +115,7 @@ To bundle just dependencies `.dll`s add following properties to all your referen
 <Content Include="$(PKGHamsterWheel_FluentCodeGenerators_Abstractions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="False" />
 ```
 
-This will cause to produce a package with following structure:
+This will cause to produce a package with the following structure:
 
 - analyzers
   - dotnet
@@ -124,9 +124,9 @@ This will cause to produce a package with following structure:
       - HamsterWheel.FluentCodeGenerators.dll
       - HamsterWheel.FluentCodeGenerators.Abstractions.dll
 
-Which should be enough to produce working Source Code generator package!
+Which should be enough to produce a working Source Code generator package!
 
-Final project file should be similar to below:
+The final project file should be similar to the below:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -159,13 +159,13 @@ Final project file should be similar to below:
 
 ## Using your code generator inside the solution
 
-This is very hard to write a code for source code generator only one time at the same time have final and correct solution. In reality writing a code generator is very time-consuming and iterative process.
-To make it easier it is nice to have your code generator in the same solution (at least in the beginning) as the project(s) that will be using it. To do that we need a bit more work in your project file for it to be usable this way.
+This is tough to write a code for a source code generator only one time at the same time to have a final and correct solution. In reality, writing a code generator is a very time-consuming and iterative process.
+To make it easier, it is nice to have your code generator in the same solution (at least in the beginning) as the project(s) that will be using it. To do that, we need a bit more work in your project file for it to be usable this way.
 
 First:
 - add new property to the project file: `<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>` this will copy all dlls and other files to the Output dir. Beware that it will copy those files also to the directory that is used to produce NugetPackage so it will grow in size considerably. Remove it before packing your project. 
-- then add `PrivateAssets="all"` to all your packages. Previous step will ensure all the dependencies of your package to be carried over to the project that uses code generator. There is no need to import them one more time as dependencies too.
-- and do some magic by adding following sections:
+- then add `PrivateAssets="all"` to all your packages. The previous step will ensure all the dependencies of your package to be carried over to the project that uses code generator. There is no need to import them one more time as dependencies too.
+- and do some magic by adding the following sections:
 
 ```xml
 <PropertyGroup>
@@ -180,7 +180,7 @@ First:
 </Target>
 ```
 
-This will ensure that your code generator after build carries over all its dll files of all dependencies to target project (another project in solution that will use it for code generation). You can read about it [here](See https://github.com/dotnet/roslyn-sdk/blob/0313c80ed950ac4f4eef11bb2e1c6d1009b328c4/samples/CSharp/SourceGenerators/SourceGeneratorSamples/SourceGeneratorSamples.csproj#L13-L30
+This will ensure that your code generator after build carries over all its dll files of all dependencies to a target project (another project in a solution that will use it for code generation). You can read about it [here](See https://github.com/dotnet/roslyn-sdk/blob/0313c80ed950ac4f4eef11bb2e1c6d1009b328c4/samples/CSharp/SourceGenerators/SourceGeneratorSamples/SourceGeneratorSamples.csproj#L13-L30
 and https://github.com/dotnet/roslyn/discussions/47517#discussioncomment-64145).
 Without it, you will see similar warning as without bundling `FluentCodeGenerators` dependencies in Nuget package. 
 
@@ -233,11 +233,11 @@ There are two main use cases for Roslyn source code generation:
 - generate additional code based on Additional Files set
 - generate additional code for existing types
 
-Use of Fluent API is the same for both though set of providers is different.
+Use of Fluent API is the same for both, though the set of providers is different.
 
 ## Additional Files Providers
 
-Like in Demo example if we have Additional Files loggers directory:
+Like in the Demo example, if we have Additional Files loggers directory:
 
 ```xml
 <ItemGroup>
@@ -245,7 +245,7 @@ Like in Demo example if we have Additional Files loggers directory:
 </ItemGroup>
 ```
 
-We can prepare provider for them in following way:
+We can prepare provider for them in the following way:
 
 ```csharp
 var additionalFilesProvider = context.AdditionalTextsProvider
@@ -259,28 +259,28 @@ There are other possibilities for searching with `Where` (we call them Provider 
 - `AdditionalTextPredicates.FileNameIs` will match against file name and extension
 - `AdditionalTextPredicates.FileNameEndsWith` will match against file name and extension
 
-After that it is usually better to add selector to your provider. How Roslyn incremental source code generators works is that they are run everytime your provider changes. So in above example if there is new file added/removed as Additional File source code generator is restarted. This way you can immidiately see new code in your IDE while working on the project.
+After that it is usually better to add a selector to your provider. How Roslyn incremental source code generators work is that they are run everytime your provider changes. So in the above example, if there is a new file added/removed as Additional File source code generator is restarted. This way you can immediately see new code in your IDE while working on the project.
 You can try it in the DemoUse project. 
-- open Program.cs file 
+- open the Program.cs file 
 - remove LoremIpsum.txt
-- Program.cs will show an error in line 4 since class is no longer available
+- Program.cs will show an error in line 4 since the class is no longer available
 - bring back the file
 - Program.cs error is gone
 
-To make sure it works like that make sure that all providers gather all the necessary data for generators to work. Nothing more. Nothing less. 
-In example for Demo it will be:
+To make sure it works like that, make sure that all providers gather all the necessary data for generators to work. Nothing more. Nothing less. 
+In the example for Demo it will be:
 
 ```csharp
 Select(AdditionalTextSelectors.GetFileNameAndContent)
 ```
 
-Which will select additional file full path and its content. This will cause generator to regenerate code everytime any content of those files will change. You can test it in DemoUse project by changing content of one of the additional files and checking content of generated file. It will be reloaded automatically. No build or rebuild required. 
+Which will select the additional file full path and its content. This will cause the generator to regenerate code everytime any content of those files changes. You can test it in DemoUse project by changing the content of one of the additional files and checking the content of the generated file. It will be reloaded automatically. No build or rebuild is required. 
 
 There are other selectors (methods that can be used in `Select` method of `IncrementalValue(s)Provider`)
 - `FileContent` selects additional file content
-- `ContentToEnum` will attempt to parse content of file as enum of given type. This is very helpful when you need to pass variables to the generator. It is not (easily) possible via MSbuild properties. But trivial via additional files.
+- `ContentToEnum` will attempt to parse content of the file as enum of a given type. This is very helpful when you need to pass variables to the generator. It is not (easily) possible via MSbuild properties. But trivial via additional files.
 
-When you are satisfied with final value of provider call `Collect` method to produce provider that can be used with you Source Code Generator. For example in demo it is
+When you are satisfied with final value of provider call `Collect` method to produce provider that can be used with your Source Code Generator. For example, in the demo it is
 
 ```csharp
 var additionalFilesProvider = context.AdditionalTextsProvider
@@ -295,8 +295,8 @@ Which means that your generator will have access to:
 
 ## Compilation Providers
 
-Apart from Additional Files providers, Incremental Code Generators have access to Compilation provider - set of compilation options, list of references, global types etc.
-There are few helpers that may be necessary:
+Apart from Additional Files providers, Incremental Code Generators have access to Compilation provider – a set of compilation options, list of references, global types, etc.
+There are a few helpers that may be necessary:
 - `CompilationSelectors.AssemblyName` returns target assembly name, that should be the same as target namespace and can be used to generate classes in the same namespace as rest of the code resides in.
 - `CompilationSelectors.TypeResolver` is function that can be used to resolve type in compilation context. Can be used to find out information about specific types by their names (i.e. `typeof(XX).FullName` will give you value for `TypeResolver` method)
 
@@ -321,12 +321,12 @@ Should return root namespace. If it was not set i.e. it will return fallback val
 context.AnalyzerConfigOptionsProvider.GetGlobalOptions();
 ```
 
-but it is generally better to use as little as possible in your generators. If any of the options will change, your generator will be triggered - even if the change did not trigger final outcome.
+but it is generally better to use as little as possible in your generators. If any of the options change, your generator will be triggered – even if the change did not trigger the outcome.
 
 ## Combining providers
 
-It is rare for actual source code generators to use only one or two providers. Usually more is used. Native `IncrementalValue(s)Provider.Combine` method is cumbersome to use in such occasions when you need 5 or more since you only can combine two providers at once and result is not named tuple. 
-To make it easier FluentCodeGenerators package have helper methods for combining up to 7 providers.
+It is rare for actual source code generators to use only one or two providers. Usually more is used. Native `IncrementalValue(s)Provider.Combine` method is cumbersome to use in such occasions when you need 5 or more since you only can combine two providers at once and the result is not named tuple. 
+To make it easier, the FluentCodeGenerators package has helper methods for combining up to 7 providers.
 
 ```csharp
 public static IncrementalValueProvider<(T1 First, T2 Second, T3 Third, T4 Fourth, T5 Fifth, T6 Sixth, T7 Seventh)>
@@ -380,17 +380,17 @@ context.AdditionalTextsProvider.Where(AdditionalTextPredicates.InDirectory("Firs
     .Select((tuple, _) => (MyFirstDir: tuple.First, MySecondDir: tuple.Second, MyThirdDir: tuple.Third));
 ```
 
-This way final provider will be more intuitive to use.
+This way the final provider will be more intuitive to use.
 
 ## Using Fluent API for code generation
 
-In general API is designed to have the following structure:
+In general, API is designed to have the following structure:
 
 ```csharp
 parentContext.AddChilren(childContext => childContext.AddNestedChild(nc => { . . . }));
 ```
 
-Which means that each context is configured by nested lambda function. Context can be anything:
+Which means that each context is configured by a nested lambda function. Context can be anything:
 - class 
 - method
 - property
@@ -399,7 +399,7 @@ Which means that each context is configured by nested lambda function. Context c
 
 Basically anything is context of some kind.
 
-Fluent API is designed to have class that inherits from `SourceCodeFileGeneratorBase` to generate separate file with single type inside. I.e. 
+Fluent API is designed to have class that inherits from `SourceCodeFileGeneratorBase` to generate a separate file with single type inside. I.e. 
 
 ```csharp
 public class MyClassCodeGenerator(SourceProductionContext sourceProductionContext)
@@ -414,7 +414,7 @@ public class MyClassCodeGenerator(SourceProductionContext sourceProductionContex
 
 Parameter of `SourceCodeFileGeneratorBase` are:
 - SourceProductionContext passed from `IIncrementalGenerator`, part of Roslyn generators API
-- Directory name for generated file. In example in Demo.Use project it is `Demo`:
+- Directory name for the generated file. In example in the Demo.Use project it is `Demo`:
 
 ![img.png](readme_files/img.png)
 
@@ -447,7 +447,7 @@ var ipAddressType = typeof(IPAdress);
 classContext.WithProp<Type>("MyType", p => p.MakeComputed().WithExpressionBody(b => b.Append($"typeof({ipAddressType})")))
 ```
 
-`IPAddress` class is located in `System.Net` namespace. Above code will create similar file content:
+`IPAddress` class is located in `System.Net` namespace. The above code will create similar file content:
 ```csharp
 using System.CodeDom.Compiler;
 using System.Net; //<-- this namespace was added automatically
@@ -458,11 +458,11 @@ public class MyClass
     public Type MyType => typeof(IPAddress);
 }
 ```
-Of course, you do not need one extra variable and this code may avoid it:
+Of course, you do not need one extra variable, and this code may avoid it:
 ```csharp
 p.MakeComputed().WithExpressionBody(b => b.Append($"typeof({typeof(IPAddress)})"))
 ```
-but it may be also a bit harder to understand what is happening.
+but it may be a bit harder to understand what is happening.
 
 The same is possible with `ITypeSymbol` interface. I.e. if you fetched some type via `CompilationProvider`:
 ```csharp
@@ -480,7 +480,7 @@ context.WithEnum(e => e.Named("OrderStatus")
     .WithValues(["Created", "Payed", "Sent", "Completed"]));
 ```
 
-Will generate following enum:
+Will generate the following enum:
 
 ```csharp
 [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version=0.4.1.0")]
@@ -495,13 +495,13 @@ public enum OrderStatus
 
 ### Generating classes
 
-Generating classes is a bit more complicated because number of possibilities is much greater. The simplest way to generate class is to have the following statement in your generator:
+Generating classes is a bit more complicated because the number of possibilities is much greater. The simplest way to generate a class is to have the following statement in your generator:
 
 ```csharp
 context.WithClass("MyClass");
 ```
 
-which will generate following code:
+which will generate the following code:
 
 ```csharp
 [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version=0.4.1.0")]
@@ -514,7 +514,7 @@ public class MyClass
 
 #### Base class
 
-You can mark a class as having base class:
+You can mark a class as having a base class:
 
 ```csharp
 classContext.WithBase(b => b.From<BaseClass>()));
@@ -532,18 +532,18 @@ To add an interface to the class call following method on `ClassContext`:
 ```csharp
 classContext.ImplementsInterface<IQueryable>();
 ```
-This will only add interface to the class. It will not help in any way with the implementation of such interface:
+This will only add an interface to the class. It will not help in any way with the implementation of such an interface:
 ```csharp
 public class MyClass : IQueryable
 {
     
 }
 ```
-To implement all the necessary members you need to add them to the class via `WithMethod`, `WithProp` and similar methods.
+To implement all the necessary members, you need to add them to the class via `WithMethod`, `WithProp` and similar methods.
 
 #### Add Attribute
 
-It is possible to add attribute to the class:
+It is possible to add an attribute to the class:
 ```csharp
 classContext.WithAttribute(i => i.From<ExcludeFromCodeCoverageAttribute>());
 ```
@@ -558,8 +558,8 @@ public class MyClass
 
 #### Adding Primary Constructor
 
-You can add primary constructor the same way as constructor to the class. Different is the naming of the API method and of course primary constructor can not have body.
-It is possible to use its parameter names in base class constructor too.
+You can add the primary constructor the same way as a constructor to the class. Different is the naming of the API method, and of course the primary constructor cannot have a body.
+It is possible to use its parameter names in the base class constructor too.
 In example:
 ```csharp
 classContext.WithPrimaryCtor()
@@ -569,7 +569,7 @@ will generate:
 public class MyClass()
 ```
 
-You can add parameter to such constructor in following manner:
+You can add parameter to such a constructor in the following manner:
 ```csharp
 primaryCtorContext.WithParameter(p => p.Named("myParam").From<int>());
 ```
@@ -577,7 +577,7 @@ which will generate:
 ```csharp
 public class MyClass(int myParam)
 ```
-You can also reference such primary ctor constructor in base constructor call:
+You can also reference such a primary ctor constructor in a base constructor call:
 ```csharp
 classContext.WithBase(b => 
     b.From("BaseClass")
@@ -590,7 +590,7 @@ public class MyClass(int myParam) : BaseClass(myParam)
 
 #### Adding constructor
 
-You can add constructor or primary constructor to class:
+You can add a constructor or primary constructor to a class:
 ```csharp
 classContext.WithCtor(b => b.WithBody(b => b.Append("Init();")));
 ```
@@ -611,7 +611,7 @@ public class MyClass(int myParam)
 {
 }
 ```
-It is possible to use such parameter in the body of the constructor by its index:
+It is possible to use such a parameter in the body of the constructor by its index:
 ```csharp
 ctorContext.WithParameter(p => p.Named("myParam").From<int>())
     .WithBody(b => b.AppendLine($"Init({ct.ParametersNames[0]});"));
@@ -625,11 +625,11 @@ public HelloWorldLogger(int myParam)
 ```
 #### Add Property
 
-You can use following code to add property to the class:
+You can use the following code to add property to the class:
 ```csharp
 classContext.WithProp<string>("MyProperty")
 ```
-New property is just simple string with public accessors:
+The new property is just a simple string with public accessors:
 ```csharp
 public string MyProperty { get; set; }
 ```
@@ -637,7 +637,7 @@ It is possible to modify property visibility like with any other member:
 ```csharp
 classContext.WithProp<string>("MyProperty", p => p.SetVisibility(MemberVisibility.Internal));
 ```
-Result is the same but visibility is internal:
+The result is the same, but visibility is internal:
 ```csharp
 internal string MyProperty { get; set; }
 ```
@@ -649,15 +649,15 @@ and property will be returning constant string:
 ```csharp
 public string MyProperty => "TEST";
 ```
-Expression body can contain any arbitrary code. There are few helpers but not as much as with structure of classes. Possibilities are just to great. Regardless we still can add usings
+Expression body can contain any arbitrary code. There are few helpers but not as many as with the structure of classes. The possibilities are just too great. Regardless, we still can add usings
 
 #### Add Field
 
-You can use following code to add field to the class:
+You can use the following code to add a field to the class:
 ```csharp
 classContext.WithField<string>("myField")
 ```
-New field will have similar definition to below:
+The new field will have a similar definition to the below:
 ```csharp
 private string _myField;
 ```
@@ -672,7 +672,7 @@ will generate:
 ```csharp
 protected string _myField;
 ```
-It is possible to make field of nullable type:
+It is possible to make a field of the nullable type:
 ```csharp
 f.MakeNullable();
 ```
@@ -680,11 +680,11 @@ will add `?` to the field type:
 ```csharp
 protected string? _myField;
 ```
-If field is of not nullable type and does not have an initializer, and nullability is enabled in the generated file (it is by default) compiler will emit warning, that non-nullable field is of null value:
+If a field is of not nullable type and does not have an initializer, and nullability is enabled in the generated file (it is by default), the compiler will emit a warning that a non-nullable field is of null value:
 ```powershell
 Non-nullable field '_myField' is uninitialized. Consider adding the 'required' modifier or declaring the field as nullable
 ```
-To remedy this disable nullability warning:
+To remedy this, disable the nullability warning:
 ```csharp
 fieldContext.DisableNullabilityWarning();
 ```
@@ -694,11 +694,11 @@ private string _myField = default!;
 ```
 
 #### Add Method
-You can add method to the class with simple:
+You can add a method to the class with a simple:
 ```csharp
 classContext.WithMethod("MyMethod");
 ```
-This will instruct code generator to emit following code:
+This will instruct the code generator to emit the following code:
 ```csharp
 public void MyMethod()
 {
@@ -708,20 +708,20 @@ To change the return type of the method:
 ```csharp
 classContext.WithMethod("MyMethod", m => m.WithReturnType<string>());
 ```
-which will change the generated method to following:
+which will change the generated method to the following:
 ```csharp
 public string MyMethod()
 {
 }
 ```
-This is invalid code and will fail to compile. To fix it add code with `return` keyword:
+This is invalid code and will fail to compile. To fix it, add code with `return` keyword:
 ```csharp
 public string MyMethod()
 {
     return string.Empty;
 }
 ```
-If you prefer expression body instead for such simple methods this may be instead:
+If you prefer expression body instead of such simple methods, this may be instead:
 ```csharp
 classContext.WithMethod("MyMethod", m => m.WithReturnType<string>().WithExpressionBody(b => b.Append("string.Empty")));
 ```
@@ -729,7 +729,7 @@ This will generate just one line of code:
 ```csharp
 public string MyMethod() => string.Empty;
 ```
-If you need parametrized method it can be done with following configuration action:
+If you need a parametrized method, it can be done with the following configuration action:
 ```csharp
 methodContext.WithParameter<string>("firstParam".ToPascalCaseName())
 ```
@@ -737,9 +737,9 @@ This will add one parameter to your method:
 ```csharp
 public void MyMethod(string firstParam)
 ```
-You can add as many parameters as you want to method like that.
+You can add as many parameters as you want to a method like that.
 
-Very often in modern C# code methods are async instead. To generate such method you can just call `MakeAsync`:
+Very often in modern C# code methods are async instead. To generate such a method you can just call `MakeAsync`:
 ```csharp
 methodContext.MakeAsync()
 ```
@@ -764,13 +764,13 @@ will generate:
 public async Task<int> MyMethod(CancellationToken cancellationToken)
 ```
 
-If your method have parameters, you will want to reference them in the body of the method:
+If your method has parameters, you will want to reference them in the body of the method:
 ```csharp
 methodContext.WithReturnType<int>()
     .WithParameter<int>("intValue".ToCamelCaseName())
     .WithBody(b => b.AppendReturn(b.ParametersNames[0]))
 ```
-Above code will generate method that returns its parameter value:
+The above code will generate a method that returns its parameter value:
 ```csharp
 public int MyMethod(int intValue)
 {
@@ -780,7 +780,7 @@ public int MyMethod(int intValue)
 
 #### Sealed, Partial, Abstract and Static classes
 
-You can mark class as static. This is possible to almost every member too. In example:
+You can mark a class as static. This is possible to almost every member too. In example:
 ```csharp
 classContext.MakeStatic();
 ```
@@ -816,11 +816,11 @@ public sealed MyClass
 
 #### Add arbitrary code
 
-Not all the C# features are supported by fluent API. That would be very complicated, almost impossible even, to write. To support those other cases (in example to generate indexers) `WithCode` method is available for use:
+Fluent API does not support all the C# features. That would be very complicated, almost impossible even to write. To support those other cases (in example to generate indexers) `WithCode` method is available for use:
 ```csharp
 classContext.WithCode("public string this[int index]{ get => _collectionField[index]; }")
 ```
-will generate indexer in generated class:
+it will generate an indexer in the generated class:
 ```csharp
 public class MyClass
 {
@@ -831,7 +831,7 @@ public class MyClass
 
 ### Change visibility modifier
 
-By default, everything generated by fluent API is public. But you can change visibility modifier of every class or enum or every member that supports it. In example for class to make it internal:
+By default, everything generated by fluent API is public. But you can change the visibility modifier of every class or enum or every member that supports it. In an example for a class to make it internal:
 
 ```csharp
 classContext.MakeInternal();
@@ -839,7 +839,7 @@ classContext.MakeInternal();
 classContext.SetVisibility(MemberVisibility.Internal);
 ```
 
-will generate following code:
+will generate the following code:
 ```csharp
 [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version=0.4.1.0")]
 internal class MyClass
@@ -874,7 +874,7 @@ private string MyProperty { get; set; }
 
 # Reporting diagnostics
 
-In some cases it may be desirable to notify user of your code generator about something. It may be just information, a warning or error message with explanation what is wrong. For example:
+In some cases it may be desirable to notify the user of your code generator about something. It may be just information, a warning or error message with an explanation of what is wrong. For example:
 ```csharp
 [Generator(LanguageNames.CSharp)]
 public class DemoSolutionIncrementalGenerator : IIncrementalGenerator
@@ -895,7 +895,7 @@ will cause build to output:
 ```text
 1>CSC: Error exception : Attempted to read or write protected memory. This is often an indication that other memory is corrupt.
 ```
-which does not make much sense in case of code generator, but you can use any type that inherits from `Exception`.
+which makes little sense in case of code generator, but you can use any type that inherits from `Exception`.
 
 Warning and information are similar methods:
 ```csharp
@@ -913,14 +913,14 @@ info information: I am DemoSolutionIncrementalGenerator
 
 # Sharing pieces of logic
 
-If you will be working on bigger project then sooner or later you will find yourself in a place when some pieces of code or logic will be shared by multiple classes. To some extent it is possible to achieve by common code: i.e. abstract base class. But not always. For example you will be generating dozens of endpoints for your api and all of them will have `Path` and `HttpMethod` properties. Beside using extension methods for `IClassContext` or any other Fluent API context, it is natively supported by FluentCodeGenerators library via:
+If you will be working on the bigger project, then sooner or later you will find yourself in a place when multiple classes will share some pieces of code or logic. To some extent it is possible to achieve by common code: i.e. abstract base class. But not always. For example, you will be generating dozens of endpoints for your api and all of them will have `Path` and `HttpMethod` properties. Besides using extension methods for `IClassContext` or any other Fluent API context, it is natively supported by FluentCodeGenerators library via:
 - contexts configurators that implements `IContextConfigurator<TContext>` interface 
 - code chunks that implements `ICodeChunk` interface directly or indirectly
 
 
 ## Sharing via Configurators
 
-If you want to add several members to several classes you can use `IContextConfigurator` interface. In example let us consider following implementation:
+If you want to add several members to several classes you can use `IContextConfigurator` interface. In the example, let us consider the following implementation:
 ```csharp
 public class ClassEndpointConfigurator : IContextConfigurator<IClassContext>
 {
@@ -932,11 +932,11 @@ public class ClassEndpointConfigurator : IContextConfigurator<IClassContext>
 }
 ```
 
-Using this configurator in following way:
+Using this configurator in the following way:
 ```csharp
 classContext.ConfigureUsing<ClassEndpointConfigurator>();
 ```
-will generate the same two properties on each class that was generated using such configurator:
+will generate the same two properties on each class that was generated using such a configurator:
 ```csharp
 public class MyClass
 {
@@ -944,7 +944,7 @@ public class MyClass
     public HttpMethod HttpMethod { get; set; }
 }
 ```
-Of course sometimes there is a need to have shared logic that does differ implementation based on some parameters. You can do this via passing parameters to configurator:
+Of course, sometimes there is a need to have shared logic that does differ implementation based on some parameters. You can do this via passing parameters to the configurator:
 ```csharp
 public class ClassEndpointConfigurator(string nameOfTheClass) : IContextConfigurator<IClassContext>
 {
@@ -965,7 +965,7 @@ public class ClassEndpointConfigurator(string nameOfTheClass) : IContextConfigur
     }
 }
 ```
-And new configurator can be used in very similar way:
+And a new configurator can be used in a very similar way:
 ```csharp
 classContext.ConfigureUsing(new ClassEndpointConfigurator("GetMyEndpoint"));
 ```
@@ -973,7 +973,7 @@ Context configurators can be used for any type of context. Not only for classes 
 
 ## Sharing via CodeChunks
 
-In some cases when full `IContextConfigurator` implementation is too much you have an access to `IMethodBodyContext` or `IExpressionBodyContext` it may be easier to implement custom code chunk. In example if you do want to share parameter name via string between `IParameterContext` and `IMethodBodyContext`
+In some cases when full `IContextConfigurator` implementation is too much you have access to `IMethodBodyContext` or `IExpressionBodyContext` it may be easier to implement custom code chunk. In example if you do want to share parameter name via string between `IParameterContext` and `IMethodBodyContext`
 ```csharp
 public class MyCodeParameterNameChunk : BodyChunk
 {
@@ -990,7 +990,7 @@ classContext.WithMethod(m =>
         .WithParameter<string>(MyCodeParameterNameChunk.ParameterName.ToCamelCaseName())
         .WithBody(b => b.Append($"return {new MyCodeParameterNameChunk()};")));
 ```
-will emit following code:
+will emit the following code:
 ```csharp
 public string MyMethod(string myParameter)
 {
@@ -1000,11 +1000,11 @@ public string MyMethod(string myParameter)
 
 # Known issues
 
-At some point when you develop code generator in Rider preview of generated files can stop appearing. As far as I know it is not only in Rider, but it is wider issue connected to Analyzers.
+At some point when you develop a code generator in Rider, a preview of generated files can stop appearing. As far as I know, it is not only in Rider, but it is a wider issue connected to Analyzers.
 You can work around this by adding:
 
 ```xml
 <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 ```
 
-to your project `PropertyGroup`. This way generated files will still appear even if IDE will have trouble with generating preview. You can find generated files in `obj/{configuration}/{framework}/generated` directory.
+to your project `PropertyGroup`. This way generated files will still appear even if the IDE has trouble with generating a preview. You can find generated files in `obj/{configuration}/{framework}/generated` directory.

@@ -39,13 +39,12 @@ public class INameExtensionsUnitTests
     public void FirstLetterLower_WhenCalled_ThenReturnsCorrectString(string nameString, string firstLetter)
     {
         //arrange
-        var expected = firstLetter;
         var name = new CamelCaseName(nameString);
 
         //act
         var actual = name.FirstLetterLower();
 
         //assert
-        actual.Should().Be(expected);
+        actual.Should().Be(firstLetter);
     }
 }
