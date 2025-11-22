@@ -5,6 +5,7 @@ variables:
   NUGET_PACKAGES_DIRECTORY: '.nuget'
   SOURCE_CODE_PATH: ''
   TEST_CODE_PATH: '/builds/hamster-wheel/fluentcodegenerators/test'
+  FF_NETWORK_PER_BUILD: "true"
 
 cache:
   key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"

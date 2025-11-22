@@ -1,5 +1,7 @@
 using System.Reflection;
+using HamsterWheel.FluentCodeGenerators.External;
 using HamsterWheel.FluentCodeGenerators.Tokens;
+using Microsoft.CodeAnalysis;
 
 namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 
@@ -36,4 +38,7 @@ public static class IUsingAppenderExtensions
 
     public static void AddUsing(this IUsingsAppender usings, string namespaceName) =>
         usings.AddUsing(namespaceName.ToNamespace());
+
+    public static void AddUsing(this IUsingsAppender usings, INamedTypeSymbol typeSymbol) =>
+        usings.AddUsing(ExternalTypeInfo.From(typeSymbol));
 }

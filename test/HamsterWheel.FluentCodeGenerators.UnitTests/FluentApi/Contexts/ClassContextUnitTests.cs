@@ -66,6 +66,29 @@ public class ClassContextUnitTests
     }
 
     [Fact]
+    public void WithCommentAndAttributes_WhenRendered_ThenHaveNewLinesBetweenCommentAndAttributes()
+    {
+        //arrange
+        const string expected = """
+                                /// <summary>
+                                /// This is a comment
+                                /// </summary>
+                                [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version=0.4.4.0")]
+                                public class MyClass
+                                {
+
+                                }
+                                """;
+        _sut.WithGeneratedCodeAttr();
+
+        //act
+        _sut.WithComment("This is a comment");
+
+        //assert
+        _classChunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
     public void MakePartial_WhenRendered_ThenClassIsPartial()
     {
         //arrange
