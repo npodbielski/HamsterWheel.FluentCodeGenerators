@@ -27,4 +27,6 @@ public class AttributesDefinitionChunk(bool inline = false) : ICodeChunk
 
         return true;
     }
+
+    public bool HaveAttributes => _attributes.Any();
 }

@@ -10,7 +10,6 @@ public class ParameterDefinitionChunk(TypeNameChunk typeChunk, string? name = nu
     public CamelCaseName Name { get; private set; } = new(name ?? "");
     IName INamedChunk.Name => Name;
     public TypeNameChunk Type { get; private set; } = typeChunk;
-    public string NameAsString => Name;
 
     public int? Order { get; set; } = order;
 

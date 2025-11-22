@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 using HamsterWheel.FluentCodeGenerators.Tokens;
+using HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
 
@@ -164,16 +165,25 @@ public class SourceCodeFileContextUnitTests
     }
 
     [Fact]
-    public void AddUsing_WhenCalledWithNameInNamespace_ThenAddsStaticUsing()
+    public void AddStaticUsing_WhenCalledWithNameInNamespace_ThenAddsStaticUsing()
     {
         //arrange
         //act
         ((IUsingsAppender)_sut).AddStaticUsing(new NameInNamespace("DataMapper", "HamsterWheel.Common.Data.Mapping"));
 
         //assert
-        _sut.BuildFile().Trim().Should().Be("""
-                                            using static HamsterWheel.Common.Data.Mapping.DataMapper;
-                                            """);
+        _sut.BuildFile().Trim().Should().Be("using static HamsterWheel.Common.Data.Mapping.DataMapper;");
+    }
+
+    [Fact]
+    public void AddUsing_WhenCalledWithITypeSymbol_ThenAddsUsing()
+    {
+        //arrange
+        //act
+        _sut.AddUsing(new DummyNamedTypeSymbol("ExternalName", "ExternalNamespace"));
+
+        //assert
+        _sut.BuildFile().Trim().Should().Be("using ExternalNamespace;");
     }
 
     [Fact]

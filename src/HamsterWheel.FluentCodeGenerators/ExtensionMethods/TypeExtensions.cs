@@ -1,4 +1,4 @@
-namespace HamsterWheel.FluentCodeGenerators.Exceptions;
+namespace HamsterWheel.FluentCodeGenerators;
 
 public static class TypeExtensions
 {
