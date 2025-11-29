@@ -13,10 +13,7 @@ public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSym
         throw new NotImplementedException();
     }
 
-    public ImmutableArray<AttributeData> GetAttributes()
-    {
-        throw new NotImplementedException();
-    }
+    public ImmutableArray<AttributeData> GetAttributes() => [];
 
     public void Accept(SymbolVisitor visitor)
     {
