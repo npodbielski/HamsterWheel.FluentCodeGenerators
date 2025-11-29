@@ -1,4 +1,4 @@
-using HamsterWheel.FluentCodeGenerators.Data;
+using HamsterWheel.Data;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;

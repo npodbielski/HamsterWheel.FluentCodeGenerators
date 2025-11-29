@@ -69,16 +69,17 @@ public class ClassContextUnitTests
     public void WithCommentAndAttributes_WhenRendered_ThenHaveNewLinesBetweenCommentAndAttributes()
     {
         //arrange
-        const string expected = """
-                                /// <summary>
-                                /// This is a comment
-                                /// </summary>
-                                [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version=0.4.4.0")]
-                                public class MyClass
-                                {
+        var version = this.GetThisObjectTypeAssemblyVersion();
+        var expected = $$"""
+                         /// <summary>
+                         /// This is a comment
+                         /// </summary>
+                         [GeneratedCode("HamsterWheel.FluentCodeGenerators", "Version={{version}}")]
+                         public class MyClass
+                         {
 
-                                }
-                                """;
+                         }
+                         """;
         _sut.WithGeneratedCodeAttr();
 
         //act
