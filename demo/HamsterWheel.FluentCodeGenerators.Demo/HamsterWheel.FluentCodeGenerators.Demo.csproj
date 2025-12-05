@@ -12,8 +12,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.2" GeneratePathProperty="true" />
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.2" GeneratePathProperty="true" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.5" GeneratePathProperty="true" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.5" GeneratePathProperty="true" />
     </ItemGroup>
 
     <ItemGroup>
