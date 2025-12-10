@@ -11,11 +11,10 @@ public static class AnalyzerConfigOptionsProviderExtensions
         provider.Select((c, _) => c.GlobalOptions);
 
     public static IncrementalValueProvider<Namespace> GetRootNamespace(
-        this IncrementalValueProvider<AnalyzerConfigOptionsProvider> provider, string fallbackNamespace)
-    {
-        return provider.Select((a, _) =>
-            a.GlobalOptions.TryGetValue("build_property.rootnamespace", out var projectFileNamespace)
-                ? projectFileNamespace.ToNamespace()
-                : fallbackNamespace.ToNamespace());
-    }
+        this IncrementalValueProvider<AnalyzerConfigOptionsProvider> provider, string fallbackNamespace) =>
+        provider.Select((a, _) => a.GlobalOptions.GetRootNamespace() ?? fallbackNamespace.ToNamespace());
+
+    public static IncrementalValueProvider<Namespace?> GetRootNamespace(
+        this IncrementalValueProvider<AnalyzerConfigOptionsProvider> provider) =>
+        provider.Select((a, _) => a.GlobalOptions.GetRootNamespace());
 }
