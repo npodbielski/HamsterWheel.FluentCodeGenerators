@@ -1,15 +1,12 @@
+#pragma warning disable RS1009
 using System.Collections.Immutable;
 using System.Globalization;
 using Microsoft.CodeAnalysis;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 
-#pragma warning disable RS1009
-public class DummyNamespaceSymbol(string nameSpace) : INamespaceSymbol
-#pragma warning restore RS1009
+public class DummyAssemblySymbol(string name) : IAssemblySymbol
 {
-    override public string ToString() => nameSpace;
-
     public bool Equals(ISymbol? other)
     {
         throw new NotImplementedException();
@@ -97,51 +94,38 @@ public class DummyNamespaceSymbol(string nameSpace) : INamespaceSymbol
     public ISymbol OriginalDefinition { get; }
     public bool HasUnsupportedMetadata { get; }
 
-    ImmutableArray<ISymbol> INamespaceOrTypeSymbol.GetMembers()
+    public bool GivesAccessTo(IAssemblySymbol toAssembly)
     {
         throw new NotImplementedException();
     }
 
-    IEnumerable<INamespaceOrTypeSymbol> INamespaceSymbol.GetMembers(string name)
+    public INamedTypeSymbol? GetTypeByMetadataName(string fullyQualifiedMetadataName)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<INamespaceSymbol> GetNamespaceMembers()
+    public INamedTypeSymbol? ResolveForwardedType(string fullyQualifiedMetadataName)
     {
         throw new NotImplementedException();
     }
 
-    public bool IsGlobalNamespace { get; }
-    public NamespaceKind NamespaceKind { get; }
-    public Compilation? ContainingCompilation { get; }
-    public ImmutableArray<INamespaceSymbol> ConstituentNamespaces { get; }
-
-    IEnumerable<INamespaceOrTypeSymbol> INamespaceSymbol.GetMembers()
+    public ImmutableArray<INamedTypeSymbol> GetForwardedTypes()
     {
         throw new NotImplementedException();
     }
 
-    ImmutableArray<ISymbol> INamespaceOrTypeSymbol.GetMembers(string name)
+    public AssemblyMetadata? GetMetadata()
     {
         throw new NotImplementedException();
     }
 
-    public ImmutableArray<INamedTypeSymbol> GetTypeMembers()
-    {
-        throw new NotImplementedException();
-    }
+    public bool IsInteractive { get; }
+    public AssemblyIdentity Identity { get; }
+    public INamespaceSymbol GlobalNamespace { get; }
+    public IEnumerable<IModuleSymbol> Modules { get; }
+    public ICollection<string> TypeNames { get; }
+    public ICollection<string> NamespaceNames { get; }
+    public bool MightContainExtensionMethods { get; }
 
-    public ImmutableArray<INamedTypeSymbol> GetTypeMembers(string name)
-    {
-        throw new NotImplementedException();
-    }
-
-    public ImmutableArray<INamedTypeSymbol> GetTypeMembers(string name, int arity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool IsNamespace { get; }
-    public bool IsType { get; }
+    public override string ToString() => name;
 }

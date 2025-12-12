@@ -1,12 +1,15 @@
-#pragma warning disable RS1009
 using System.Collections.Immutable;
 using System.Globalization;
 using Microsoft.CodeAnalysis;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 
-public class DummyTypeSymbol : ITypeSymbol
+#pragma warning disable RS1009
+public class DummyNamespaceSymbol(string nameSpace) : INamespaceSymbol
+#pragma warning restore RS1009
 {
+    override public string ToString() => nameSpace;
+
     public bool Equals(ISymbol? other)
     {
         throw new NotImplementedException();
@@ -58,7 +61,8 @@ public class DummyTypeSymbol : ITypeSymbol
         throw new NotImplementedException();
     }
 
-    public ImmutableArray<SymbolDisplayPart> ToMinimalDisplayParts(SemanticModel semanticModel, int position, SymbolDisplayFormat? format = null)
+    public ImmutableArray<SymbolDisplayPart> ToMinimalDisplayParts(SemanticModel semanticModel, int position,
+        SymbolDisplayFormat? format = null)
     {
         throw new NotImplementedException();
     }
@@ -90,65 +94,35 @@ public class DummyTypeSymbol : ITypeSymbol
     public ImmutableArray<Location> Locations { get; }
     public ImmutableArray<SyntaxReference> DeclaringSyntaxReferences { get; }
     public Accessibility DeclaredAccessibility { get; }
-    public ITypeSymbol OriginalDefinition { get; }
-    public SpecialType SpecialType { get; }
-    public bool IsRefLikeType { get; }
-    public bool IsUnmanagedType { get; }
-    public bool IsReadOnly { get; }
-    public bool IsRecord { get; }
-    public NullableAnnotation NullableAnnotation { get; }
-
-    public ISymbol? FindImplementationForInterfaceMember(ISymbol interfaceMember)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string ToDisplayString(NullableFlowState topLevelNullability, SymbolDisplayFormat? format = null)
-    {
-        throw new NotImplementedException();
-    }
-
-    public ImmutableArray<SymbolDisplayPart> ToDisplayParts(NullableFlowState topLevelNullability, SymbolDisplayFormat? format = null)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string ToMinimalDisplayString(SemanticModel semanticModel, NullableFlowState topLevelNullability, int position,
-        SymbolDisplayFormat? format = null)
-    {
-        throw new NotImplementedException();
-    }
-
-    public ImmutableArray<SymbolDisplayPart> ToMinimalDisplayParts(SemanticModel semanticModel, NullableFlowState topLevelNullability, int position,
-        SymbolDisplayFormat? format = null)
-    {
-        throw new NotImplementedException();
-    }
-
-    public ITypeSymbol WithNullableAnnotation(NullableAnnotation nullableAnnotation)
-    {
-        throw new NotImplementedException();
-    }
-
-    public TypeKind TypeKind { get; }
-    public INamedTypeSymbol? BaseType { get; }
-    public ImmutableArray<INamedTypeSymbol> Interfaces { get; }
-    public ImmutableArray<INamedTypeSymbol> AllInterfaces { get; }
-    public bool IsReferenceType { get; }
-    public bool IsValueType { get; }
-    public bool IsAnonymousType { get; }
-    public bool IsTupleType { get; }
-    public bool IsNativeIntegerType { get; }
-
-    ISymbol ISymbol.OriginalDefinition => OriginalDefinition;
-
+    public ISymbol OriginalDefinition { get; }
     public bool HasUnsupportedMetadata { get; }
-    public ImmutableArray<ISymbol> GetMembers()
+
+    ImmutableArray<ISymbol> INamespaceOrTypeSymbol.GetMembers()
     {
         throw new NotImplementedException();
     }
 
-    public ImmutableArray<ISymbol> GetMembers(string name)
+    IEnumerable<INamespaceOrTypeSymbol> INamespaceSymbol.GetMembers(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<INamespaceSymbol> GetNamespaceMembers()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool IsGlobalNamespace { get; }
+    public NamespaceKind NamespaceKind { get; }
+    public Compilation? ContainingCompilation { get; }
+    public ImmutableArray<INamespaceSymbol> ConstituentNamespaces { get; }
+
+    IEnumerable<INamespaceOrTypeSymbol> INamespaceSymbol.GetMembers()
+    {
+        throw new NotImplementedException();
+    }
+
+    ImmutableArray<ISymbol> INamespaceOrTypeSymbol.GetMembers(string name)
     {
         throw new NotImplementedException();
     }

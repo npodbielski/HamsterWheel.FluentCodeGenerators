@@ -1,6 +1,7 @@
 using HamsterWheel.FluentCodeGenerators.Chunks.Member;
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.ExtensionMethods;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
 

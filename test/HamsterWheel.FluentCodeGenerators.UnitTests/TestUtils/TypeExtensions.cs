@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils;
 
 public static class ObjectExtensions
 {

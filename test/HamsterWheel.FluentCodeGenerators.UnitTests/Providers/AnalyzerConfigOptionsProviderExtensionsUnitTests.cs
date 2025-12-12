@@ -1,7 +1,7 @@
 using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.Providers;
 using HamsterWheel.FluentCodeGenerators.Tokens;
-using HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;

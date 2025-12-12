@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using System.Net;
 using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.External;
-using HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 using Microsoft.CodeAnalysis;
 using NSubstitute;
 

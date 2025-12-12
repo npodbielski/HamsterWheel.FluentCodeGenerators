@@ -1,5 +1,6 @@
 using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
 

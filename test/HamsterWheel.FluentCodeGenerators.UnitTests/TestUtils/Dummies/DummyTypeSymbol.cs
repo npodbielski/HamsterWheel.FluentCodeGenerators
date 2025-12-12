@@ -1,24 +1,26 @@
+#pragma warning disable RS1009
 using System.Collections.Immutable;
 using System.Globalization;
 using Microsoft.CodeAnalysis;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 
-#pragma warning disable RS1009
-public class DummyNamedTypeSymbol(
-    string name,
-    string nameSpace,
-    bool isGenericType = false,
-    string? containingAssembly = null) : INamedTypeSymbol
-#pragma warning restore RS1009
+public class DummyTypeSymbol : ITypeSymbol
 {
-    public bool Equals(ISymbol? other) => throw new NotImplementedException();
+    public bool Equals(ISymbol? other)
+    {
+        throw new NotImplementedException();
+    }
 
-    public ImmutableArray<AttributeData> GetAttributes() => [..AttributeData];
+    public ImmutableArray<AttributeData> GetAttributes()
+    {
+        throw new NotImplementedException();
+    }
 
-    public AttributeData[] AttributeData { get; set; } = [];
-
-    public void Accept(SymbolVisitor visitor) => throw new NotImplementedException();
+    public void Accept(SymbolVisitor visitor)
+    {
+        throw new NotImplementedException();
+    }
 
     public TResult? Accept<TResult>(SymbolVisitor<TResult> visitor)
     {
@@ -56,8 +58,7 @@ public class DummyNamedTypeSymbol(
         throw new NotImplementedException();
     }
 
-    public ImmutableArray<SymbolDisplayPart> ToMinimalDisplayParts(SemanticModel semanticModel, int position,
-        SymbolDisplayFormat? format = null)
+    public ImmutableArray<SymbolDisplayPart> ToMinimalDisplayParts(SemanticModel semanticModel, int position, SymbolDisplayFormat? format = null)
     {
         throw new NotImplementedException();
     }
@@ -67,16 +68,16 @@ public class DummyNamedTypeSymbol(
         throw new NotImplementedException();
     }
 
-    public SymbolKind Kind { get; set; }
+    public SymbolKind Kind { get; }
     public string Language { get; }
-    public string Name { get; } = name;
+    public string Name { get; }
     public string MetadataName { get; }
     public int MetadataToken { get; }
     public ISymbol ContainingSymbol { get; }
-    public IAssemblySymbol ContainingAssembly { get; } = new DummyAssemblySymbol(containingAssembly!);
+    public IAssemblySymbol ContainingAssembly { get; }
     public IModuleSymbol ContainingModule { get; }
     public INamedTypeSymbol ContainingType { get; }
-    public INamespaceSymbol ContainingNamespace { get; } = new DummyNamespaceSymbol(nameSpace);
+    public INamespaceSymbol ContainingNamespace { get; }
     public bool IsDefinition { get; }
     public bool IsStatic { get; }
     public bool IsVirtual { get; }
@@ -89,55 +90,7 @@ public class DummyNamedTypeSymbol(
     public ImmutableArray<Location> Locations { get; }
     public ImmutableArray<SyntaxReference> DeclaringSyntaxReferences { get; }
     public Accessibility DeclaredAccessibility { get; }
-    public INamedTypeSymbol OriginalDefinition { get; }
-    public IMethodSymbol? DelegateInvokeMethod { get; }
-    public INamedTypeSymbol? EnumUnderlyingType { get; }
-    public INamedTypeSymbol ConstructedFrom { get; }
-    public ImmutableArray<IMethodSymbol> InstanceConstructors { get; }
-    public ImmutableArray<IMethodSymbol> StaticConstructors { get; }
-    public ImmutableArray<IMethodSymbol> Constructors { get; }
-    public ISymbol? AssociatedSymbol { get; }
-    public bool MightContainExtensionMethods { get; }
-    public INamedTypeSymbol? TupleUnderlyingType { get; }
-    public ImmutableArray<IFieldSymbol> TupleElements { get; }
-    public bool IsSerializable { get; }
-    public INamedTypeSymbol? NativeIntegerUnderlyingType { get; }
-
-    public ImmutableArray<CustomModifier> GetTypeArgumentCustomModifiers(int ordinal)
-    {
-        throw new NotImplementedException();
-    }
-
-    public INamedTypeSymbol Construct(params ITypeSymbol[] typeArguments)
-    {
-        throw new NotImplementedException();
-    }
-
-    public INamedTypeSymbol Construct(ImmutableArray<ITypeSymbol> typeArguments,
-        ImmutableArray<NullableAnnotation> typeArgumentNullableAnnotations)
-    {
-        throw new NotImplementedException();
-    }
-
-    public INamedTypeSymbol ConstructUnboundGenericType()
-    {
-        throw new NotImplementedException();
-    }
-
-    public int Arity { get; }
-    public bool IsGenericType => isGenericType;
-    public bool IsUnboundGenericType { get; }
-    public bool IsScriptClass { get; }
-    public bool IsImplicitClass { get; }
-    public bool IsComImport { get; }
-    public bool IsFileLocal { get; }
-    public IEnumerable<string> MemberNames { get; }
-    public ImmutableArray<ITypeParameterSymbol> TypeParameters { get; }
-    public ImmutableArray<ITypeSymbol> TypeArguments { get; set; } = [];
-    public ImmutableArray<NullableAnnotation> TypeArgumentNullableAnnotations { get; }
-
-    ITypeSymbol ITypeSymbol.OriginalDefinition => OriginalDefinition;
-
+    public ITypeSymbol OriginalDefinition { get; }
     public SpecialType SpecialType { get; }
     public bool IsRefLikeType { get; }
     public bool IsUnmanagedType { get; }
@@ -155,21 +108,18 @@ public class DummyNamedTypeSymbol(
         throw new NotImplementedException();
     }
 
-    public ImmutableArray<SymbolDisplayPart> ToDisplayParts(NullableFlowState topLevelNullability,
+    public ImmutableArray<SymbolDisplayPart> ToDisplayParts(NullableFlowState topLevelNullability, SymbolDisplayFormat? format = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string ToMinimalDisplayString(SemanticModel semanticModel, NullableFlowState topLevelNullability, int position,
         SymbolDisplayFormat? format = null)
     {
         throw new NotImplementedException();
     }
 
-    public string ToMinimalDisplayString(SemanticModel semanticModel, NullableFlowState topLevelNullability,
-        int position,
-        SymbolDisplayFormat? format = null)
-    {
-        throw new NotImplementedException();
-    }
-
-    public ImmutableArray<SymbolDisplayPart> ToMinimalDisplayParts(SemanticModel semanticModel,
-        NullableFlowState topLevelNullability, int position,
+    public ImmutableArray<SymbolDisplayPart> ToMinimalDisplayParts(SemanticModel semanticModel, NullableFlowState topLevelNullability, int position,
         SymbolDisplayFormat? format = null)
     {
         throw new NotImplementedException();
@@ -180,7 +130,7 @@ public class DummyNamedTypeSymbol(
         throw new NotImplementedException();
     }
 
-    public TypeKind TypeKind { get; set; }
+    public TypeKind TypeKind { get; }
     public INamedTypeSymbol? BaseType { get; }
     public ImmutableArray<INamedTypeSymbol> Interfaces { get; }
     public ImmutableArray<INamedTypeSymbol> AllInterfaces { get; }
@@ -193,17 +143,10 @@ public class DummyNamedTypeSymbol(
     ISymbol ISymbol.OriginalDefinition => OriginalDefinition;
 
     public bool HasUnsupportedMetadata { get; }
-
     public ImmutableArray<ISymbol> GetMembers()
     {
-        return [..EnumMembers.Select(s => new DummyNamedTypeSymbol(s, null!)
-        {
-            Kind = SymbolKind.Field,
-        }), ..OtherMembers];
+        throw new NotImplementedException();
     }
-
-    public string[] EnumMembers { get; set; } = [];
-    public ISymbol[] OtherMembers { get; set; } = [];
 
     public ImmutableArray<ISymbol> GetMembers(string name)
     {
@@ -227,14 +170,4 @@ public class DummyNamedTypeSymbol(
 
     public bool IsNamespace { get; }
     public bool IsType { get; }
-
-    public override string ToString()
-    {
-        if (!nameSpace.IsNullOrWhiteSpace())
-        {
-            return nameSpace + "." + name;
-        }
-
-        return name;
-    }
 }

@@ -1,4 +1,5 @@
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.ExtensionMethods;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.Chunks.Syntax;
 
