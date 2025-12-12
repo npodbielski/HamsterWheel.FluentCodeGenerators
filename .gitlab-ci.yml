@@ -45,6 +45,9 @@ package-alpha:
   stage: deploy
   rules:
     - if: $CI_COMMIT_BRANCH == "alpha"
+      changes:
+        - .gitlab-ci.yml
+        - src/**/*
   script:
     - dotnet build -c Release --no-restore
     - dotnet pack -c Release --version-suffix $CI_COMMIT_BRANCH-$CI_JOB_ID
@@ -60,6 +63,8 @@ package:
   stage: deploy
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
+      changes:
+        - src/**/*
   script:
     - dotnet build -c Release --no-restore
     - dotnet pack -c Release
