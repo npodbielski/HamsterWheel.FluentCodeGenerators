@@ -1,7 +1,6 @@
-using HamsterWheel.Data;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 
 public class DummyAnalyzerOptions(Map map) : AnalyzerConfigOptions
 {

@@ -2,6 +2,7 @@ using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.Chunks.Member;
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.ExtensionMethods;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
 
@@ -48,7 +49,7 @@ public class ConstructorContextUnitTests
     }
 
     [Fact]
-    public void WhenHaveBaseCtorThis_ThenRendersCorrectly()
+    public void WhenHaveBaseCtorBase_ThenRendersCorrectly()
     {
         //arrange
         _chunk = new CtorDefinitionChunk(

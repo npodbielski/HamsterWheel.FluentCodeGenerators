@@ -10,8 +10,6 @@ public record ExternalTypeInfo(
     string[]? Attributes = null,
     bool IsArray = false) : IExternalTypeInfo
 {
-    public string FullNameString => $"{Namespace}.{Name}";
-
     public static ExternalTypeInfo From<T>() => From(typeof(T));
 
     public static ExternalTypeInfo From(Type type) =>
