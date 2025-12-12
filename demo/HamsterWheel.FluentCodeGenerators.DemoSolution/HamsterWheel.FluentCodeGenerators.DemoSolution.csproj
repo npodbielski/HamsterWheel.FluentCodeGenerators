@@ -13,8 +13,8 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.4.5" GeneratePathProperty="true" PrivateAssets="all" />
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.4.5" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" GeneratePathProperty="true" PrivateAssets="all" />
     </ItemGroup>
 
     <!-- See https://github.com/dotnet/roslyn-sdk/blob/0313c80ed950ac4f4eef11bb2e1c6d1009b328c4/samples/CSharp/SourceGenerators/SourceGeneratorSamples/SourceGeneratorSamples.csproj#L13-L30
