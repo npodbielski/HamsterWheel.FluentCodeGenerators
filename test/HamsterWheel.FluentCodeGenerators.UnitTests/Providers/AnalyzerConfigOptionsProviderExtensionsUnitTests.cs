@@ -53,5 +53,26 @@ public class AnalyzerConfigOptionsProviderExtensionsUnitTests
         testGenerator.Source.Should().NotBeNull();
         testGenerator.Source.Should().Be(nameof(AnalyzerConfigOptionsProviderExtensionsUnitTests).ToNamespace());
     }
+
+    [Fact]
+    public void GetRootNamespaceWithoutFallback_WhenGeneratorRegistersOutput_ThenAnalyzerOptionsContainsRootNamespace()
+    {
+        //arrange
+        var testGenerator =
+            new DummyGenerator<Namespace>(c => c.AnalyzerConfigOptionsProvider.GetRootNamespace());
+        var driver = CSharpGeneratorDriver.Create(testGenerator)
+            .WithUpdatedAnalyzerConfigOptions(
+                new DummyAnalyzerConfigOptionsProvider(nameof(AnalyzerConfigOptionsProviderExtensionsUnitTests)));
+        var compilation = CSharpCompilation.Create(nameof(testGenerator),
+            options: new CSharpCompilationOptions(outputKind: OutputKind.ConsoleApplication, moduleName: "testModule"));
+
+        //act
+        driver.RunGeneratorsAndUpdateCompilation(compilation, out _, out _);
+
+        //assert
+        testGenerator.Provider.Should().NotBeNull();
+        testGenerator.Source.Should().NotBeNull();
+        testGenerator.Source.Should().Be(nameof(AnalyzerConfigOptionsProviderExtensionsUnitTests).ToNamespace());
+    }
 }
 

@@ -173,7 +173,7 @@ public class DummyNamedTypeSymbol(
     }
 
     public TypeKind TypeKind { get; set; }
-    public INamedTypeSymbol? BaseType { get; }
+    public INamedTypeSymbol? BaseType { get; set; }
     public ImmutableArray<INamedTypeSymbol> Interfaces { get; }
     public ImmutableArray<INamedTypeSymbol> AllInterfaces { get; }
     public bool IsReferenceType { get; }

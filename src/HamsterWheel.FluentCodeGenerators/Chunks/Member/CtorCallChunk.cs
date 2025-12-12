@@ -11,6 +11,7 @@ public class CtorCallChunk(TypeNameChunk type, ParametersValuesListChunk? parame
         if (withNewKeyword)
         {
             new NewKeywordChunk().AppendChunks(stringBuilder);
+            stringBuilder.Append(' ');
         }
 
         type.AppendChunks(stringBuilder);

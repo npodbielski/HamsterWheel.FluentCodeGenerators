@@ -49,7 +49,7 @@ public class ConstructorContextUnitTests
     }
 
     [Fact]
-    public void WhenHaveBaseCtorThis_ThenRendersCorrectly()
+    public void WhenHaveBaseCtorBase_ThenRendersCorrectly()
     {
         //arrange
         _chunk = new CtorDefinitionChunk(
