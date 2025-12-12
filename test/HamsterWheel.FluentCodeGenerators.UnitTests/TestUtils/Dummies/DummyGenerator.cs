@@ -1,6 +1,6 @@
 using Microsoft.CodeAnalysis;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 
 public class DummyGenerator<T>(
     Func<IncrementalGeneratorInitializationContext, IncrementalValueProvider<T>> providerBuilder,

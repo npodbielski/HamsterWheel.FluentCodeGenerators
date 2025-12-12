@@ -2,24 +2,22 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>latestmajor</LangVersion>
+        <LangVersion>14</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HamsterWheel.CodeShare.Common" Version="0.6.0-alpha-8147" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.2" GeneratePathProperty="true" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
+        <PackageReference Include="HamsterWheel.CodeShare.Common" PrivateAssets="All"/>
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" GeneratePathProperty="true" PrivateAssets="all"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HamsterWheel.FluentCodeGenerators.Abstractions\HamsterWheel.FluentCodeGenerators.Abstractions.csproj" />
+        <ProjectReference Include="..\HamsterWheel.FluentCodeGenerators.Abstractions\HamsterWheel.FluentCodeGenerators.Abstractions.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\README.md">
-        <Link>README.md</Link>
-      </Content>
+        <Content Include="..\..\README.md">
+            <Link>README.md</Link>
+        </Content>
     </ItemGroup>
 
 </Project>

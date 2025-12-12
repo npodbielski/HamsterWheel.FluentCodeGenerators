@@ -1,7 +1,7 @@
 using HamsterWheel.FluentCodeGenerators.Chunks;
-using HamsterWheel.FluentCodeGenerators.UnitTests.Assertions;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Assertions;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.ExtensionMethods;
 
 public static class FluentValidationExtensions
 {

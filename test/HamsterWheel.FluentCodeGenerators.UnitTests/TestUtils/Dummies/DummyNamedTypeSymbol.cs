@@ -2,38 +2,30 @@ using System.Collections.Immutable;
 using System.Globalization;
 using Microsoft.CodeAnalysis;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 
 #pragma warning disable RS1009
-public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSymbol
+public class DummyNamedTypeSymbol(
+    string name,
+    string nameSpace,
+    bool isGenericType = false,
+    string? containingAssembly = null) : INamedTypeSymbol
 #pragma warning restore RS1009
 {
-    public bool Equals(ISymbol? other)
-    {
-        throw new NotImplementedException();
-    }
+    public bool Equals(ISymbol? other) => throw new NotImplementedException();
 
-    public ImmutableArray<AttributeData> GetAttributes() => [];
+    public ImmutableArray<AttributeData> GetAttributes() => [..AttributeData];
 
-    public void Accept(SymbolVisitor visitor)
-    {
-        throw new NotImplementedException();
-    }
+    public AttributeData[] AttributeData { get; set; } = [];
 
-    public TResult? Accept<TResult>(SymbolVisitor<TResult> visitor)
-    {
-        throw new NotImplementedException();
-    }
+    public void Accept(SymbolVisitor visitor) => throw new NotImplementedException();
 
-    public TResult Accept<TArgument, TResult>(SymbolVisitor<TArgument, TResult> visitor, TArgument argument)
-    {
-        throw new NotImplementedException();
-    }
+    public TResult? Accept<TResult>(SymbolVisitor<TResult> visitor) => throw new NotImplementedException();
 
-    public string? GetDocumentationCommentId()
-    {
+    public TResult Accept<TArgument, TResult>(SymbolVisitor<TArgument, TResult> visitor, TArgument argument) =>
         throw new NotImplementedException();
-    }
+
+    public string? GetDocumentationCommentId() => throw new NotImplementedException();
 
     public string? GetDocumentationCommentXml(CultureInfo? preferredCulture = null, bool expandIncludes = false,
         CancellationToken cancellationToken = new CancellationToken())
@@ -67,13 +59,13 @@ public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSym
         throw new NotImplementedException();
     }
 
-    public SymbolKind Kind { get; }
+    public SymbolKind Kind { get; set; }
     public string Language { get; }
     public string Name { get; } = name;
     public string MetadataName { get; }
     public int MetadataToken { get; }
     public ISymbol ContainingSymbol { get; }
-    public IAssemblySymbol ContainingAssembly { get; }
+    public IAssemblySymbol ContainingAssembly { get; } = new DummyAssemblySymbol(containingAssembly!);
     public IModuleSymbol ContainingModule { get; }
     public INamedTypeSymbol ContainingType { get; }
     public INamespaceSymbol ContainingNamespace { get; } = new DummyNamespaceSymbol(nameSpace);
@@ -125,7 +117,7 @@ public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSym
     }
 
     public int Arity { get; }
-    public bool IsGenericType { get; }
+    public bool IsGenericType => isGenericType;
     public bool IsUnboundGenericType { get; }
     public bool IsScriptClass { get; }
     public bool IsImplicitClass { get; }
@@ -133,7 +125,7 @@ public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSym
     public bool IsFileLocal { get; }
     public IEnumerable<string> MemberNames { get; }
     public ImmutableArray<ITypeParameterSymbol> TypeParameters { get; }
-    public ImmutableArray<ITypeSymbol> TypeArguments { get; } = [];
+    public ImmutableArray<ITypeSymbol> TypeArguments { get; set; } = [];
     public ImmutableArray<NullableAnnotation> TypeArgumentNullableAnnotations { get; }
 
     ITypeSymbol ITypeSymbol.OriginalDefinition => OriginalDefinition;
@@ -180,8 +172,8 @@ public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSym
         throw new NotImplementedException();
     }
 
-    public TypeKind TypeKind { get; }
-    public INamedTypeSymbol? BaseType { get; }
+    public TypeKind TypeKind { get; set; }
+    public INamedTypeSymbol? BaseType { get; set; }
     public ImmutableArray<INamedTypeSymbol> Interfaces { get; }
     public ImmutableArray<INamedTypeSymbol> AllInterfaces { get; }
     public bool IsReferenceType { get; }
@@ -196,8 +188,18 @@ public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSym
 
     public ImmutableArray<ISymbol> GetMembers()
     {
-        throw new NotImplementedException();
+        return
+        [
+            ..EnumMembers.Select(s => new DummyNamedTypeSymbol(s, null!)
+            {
+                Kind = SymbolKind.Field,
+            }),
+            ..OtherMembers
+        ];
     }
+
+    public string[] EnumMembers { get; set; } = [];
+    public ISymbol[] OtherMembers { get; set; } = [];
 
     public ImmutableArray<ISymbol> GetMembers(string name)
     {
@@ -209,16 +211,20 @@ public class DummyNamedTypeSymbol(string name, string nameSpace) : INamedTypeSym
         throw new NotImplementedException();
     }
 
-    public ImmutableArray<INamedTypeSymbol> GetTypeMembers(string name)
-    {
-        throw new NotImplementedException();
-    }
+    public ImmutableArray<INamedTypeSymbol> GetTypeMembers(string name) => throw new NotImplementedException();
 
-    public ImmutableArray<INamedTypeSymbol> GetTypeMembers(string name, int arity)
-    {
-        throw new NotImplementedException();
-    }
+    public ImmutableArray<INamedTypeSymbol> GetTypeMembers(string name, int arity) => throw new NotImplementedException();
 
     public bool IsNamespace { get; }
     public bool IsType { get; }
+
+    public override string ToString()
+    {
+        if (!nameSpace.IsNullOrWhiteSpace())
+        {
+            return nameSpace + "." + name;
+        }
+
+        return name;
+    }
 }

@@ -3,7 +3,7 @@ using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using HamsterWheel.FluentCodeGenerators.Chunks;
 
-namespace HamsterWheel.FluentCodeGenerators.UnitTests.Assertions;
+namespace HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Assertions;
 
 public class ICodeChunkAssertions<T>(T chunk)
     : ReferenceTypeAssertions<ICodeChunk, ICodeChunkAssertions<T>>(chunk, AssertionChain.GetOrCreate())

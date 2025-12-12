@@ -1,6 +1,6 @@
 using FluentAssertions;
 using HamsterWheel.FluentCodeGenerators.Providers.Transformations;
-using HamsterWheel.FluentCodeGenerators.UnitTests.Dummies;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.Dummies;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.Providers.Transformations;
 

@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using HamsterWheel.FluentCodeGenerators.Chunks.Enums;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
+using HamsterWheel.FluentCodeGenerators.UnitTests.TestUtils.ExtensionMethods;
 
 namespace HamsterWheel.FluentCodeGenerators.UnitTests.FluentApi.Contexts;
 
