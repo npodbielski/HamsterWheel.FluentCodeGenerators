@@ -17,6 +17,13 @@ public class SourceCodeFileContext() : CodeBuilderContextBase(new CodeFileChunks
         return this;
     }
 
+    public ISourceCodeFileContext AddExternAlias(string alias)
+    {
+        var codeChunk = new ExternAliasChunk(alias);
+        FileChunks.AddAlias(codeChunk);
+        return this;
+    }
+
     public ISourceCodeFileContext WithAssemblyAttribute(Action<ISingleAttributeContext> configure)
     {
         var chunk = AttributeDefinitionChunk.AssemblyAttribute();
