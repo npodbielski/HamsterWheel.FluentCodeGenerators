@@ -11,6 +11,7 @@ public class CodeFileChunks : ICodeChunk
     private readonly List<ICodeChunk> _assemblyAttributes = [];
     private readonly List<ICodeChunk> _types = [];
     private readonly List<ICodeChunk> _pragmas = [];
+    private readonly List<ICodeChunk> _aliases = [];
     private FileScopeNamespaceChunk? _fileScopeNamespace;
 
     internal IName? FirstTypeName => _types.OfType<INamedChunk>().Select(t => t.Name).FirstOrDefault();
@@ -18,6 +19,7 @@ public class CodeFileChunks : ICodeChunk
     public void AddType(ICodeChunk type) => _types.Add(type);
 
     public void AddPragma(ICodeChunk pragma) => _pragmas.Add(pragma);
+    public void AddAlias(ICodeChunk alias) => _aliases.Add(alias);
 
     public void AddAssemblyAttribute(AttributeDefinitionChunk attr) => _assemblyAttributes.Add(attr);
 
@@ -29,8 +31,13 @@ public class CodeFileChunks : ICodeChunk
         {
             stringBuilder.AppendLine();
         }
+        
+        if (_aliases.Aggregate(false, (current, codeBuilder) => current | codeBuilder.AppendChunks(stringBuilder)))
+        {
+            stringBuilder.AppendLine();
+        }
 
-        //to allow manipulating of usings collection inside the class code (i.e. in method body) this needs to be written at the end so just we just need dummy string to replace later 
+        //to allow manipulating of the usings collection inside the class code (i.e., in method body), this needs to be written at the end so just we just need dummy string to replace later 
         stringBuilder.AppendLine("//USINGS HERE");
 
         if (_assemblyAttributes.Aggregate(false, (c, chunk) => c | chunk.AppendChunks(stringBuilder)))

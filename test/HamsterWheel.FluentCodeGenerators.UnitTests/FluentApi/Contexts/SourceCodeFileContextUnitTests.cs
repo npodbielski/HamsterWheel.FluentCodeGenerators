@@ -248,4 +248,29 @@ public class SourceCodeFileContextUnitTests
                                               namespace test;
                                               """);
     }
+
+    [Fact]
+    public void AddExternAlias_WhenCalledWithAlias_ThenAddsAlias()
+    {
+        //arrange
+        //act
+        var actual = _sut.AddExternAlias("a");
+
+        //assert
+        actual.BuildFile().Trim().Should().Be("extern alias a;");
+    }
+
+    [Fact]
+    public void AddExternAlias_WhenCalledWith2Aliases_ThenAddsBoth()
+    {
+        //arrange
+        //act
+        var actual = _sut.AddExternAlias("a").AddExternAlias("b");
+
+        //assert
+        actual.BuildFile().Trim().Should().Be("""
+                                              extern alias a;
+                                              extern alias b;
+                                              """);
+    }
 }
