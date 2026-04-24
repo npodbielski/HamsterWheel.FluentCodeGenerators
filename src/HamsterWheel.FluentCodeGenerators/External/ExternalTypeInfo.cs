@@ -16,7 +16,7 @@ public record ExternalTypeInfo(
         new(type.Name, type.Namespace.ToNamespace(), type.GenericTypeArguments.Length,
             type.GetCustomAttributes(true).Select(a => a.GetType().Name).ToArray());
 
-    public static ExternalTypeInfo From(ITypeSymbol symbol)
+    public static ExternalTypeInfo From(ISymbol symbol)
     {
         string[] attributes =
             symbol.GetAttributes().Select(a => a.AttributeClass?.Name).Where(n => n != null).ToArray()!;

@@ -59,6 +59,13 @@ public static class ISymbolExtensions
                 ? symbol.GetMembers().Where(m => m.Kind == SymbolKind.Field).Select(s => s.Name).ToArray()
                 : [];
 
+        public ExternalTypeInfo TranslateToExternalTypeInfo() => symbol.TypeKind == TypeKind.Enum
+            ? EnumTypeInfo.From((INamedTypeSymbol)symbol)
+            : ExternalTypeInfo.From(symbol);
+    }
+
+    extension(ITypeSymbol? symbol)
+    {
         public (ClrTypeInfo?, ExternalTypeInfo?) ToClrOrExternalType()
         {
             if (symbol is null)
@@ -74,9 +81,5 @@ public static class ISymbolExtensions
 
             return (null, symbol.TranslateToExternalTypeInfo());
         }
-
-        public ExternalTypeInfo TranslateToExternalTypeInfo() => symbol.TypeKind == TypeKind.Enum
-            ? EnumTypeInfo.From((INamedTypeSymbol)symbol)
-            : ExternalTypeInfo.From(symbol);
     }
 }

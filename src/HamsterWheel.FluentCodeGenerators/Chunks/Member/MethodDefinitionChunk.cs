@@ -1,14 +1,15 @@
 using System.Text;
+using HamsterWheel.FluentCodeGenerators.Chunks.Base;
+using HamsterWheel.FluentCodeGenerators.Chunks.Structure;
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
 using HamsterWheel.FluentCodeGenerators.Tokens;
 
 namespace HamsterWheel.FluentCodeGenerators.Chunks.Member;
 
-public class MethodDefinitionChunk(string methodName) : ICodeChunk
+public class MethodDefinitionChunk(string methodName) : AttributesWithVisibilityChunk(true), ICodeChunk
 {
     private readonly List<ParameterDefinitionChunk> _parametersList = [];
     private TypeNameChunk? _returnType;
-    private MemberVisibility _visibility = MemberVisibility.Public;
     private bool _isVirtual = false;
     private bool _isAbstract = false;
     private bool _isOverride;
@@ -16,9 +17,11 @@ public class MethodDefinitionChunk(string methodName) : ICodeChunk
     private bool _isStatic;
     private bool _isPartial;
     private bool _isAsync;
+    private bool _isAsyncValueTask;
     private readonly TypeNameChunk[]? _genericParameters = null;
     private string _methodName = methodName;
     private bool _haveExpressionBody;
+    private SummaryCommentChunk? _comment;
     public CamelCaseName[] ParameterNames => _parametersList.OrderBy(p => p.Order).Select(p => p.Name).ToArray();
 
     public MethodBodyChunks BodyChunks { get; } = new();
@@ -31,24 +34,38 @@ public class MethodDefinitionChunk(string methodName) : ICodeChunk
 
     public void MakeSealed() => _isSealed = true;
 
-    public void MakeAsync() => _isAsync = true;
+    public void MakeAsync()
+    {
+        _isAsync = true;
+        _isAsyncValueTask = false;
+    }
+
+    public void MakeAsyncValueTask()
+    {
+        _isAsync = false;
+        _isAsyncValueTask = true;
+    }
 
     public void MakeStatic() => _isStatic = true;
     public void MakePartial() => _isPartial = true;
 
     public void MakeVirtual() => _isVirtual = true;
 
-    public void SetVisibility(MemberVisibility value) => _visibility = value;
-
     public void AddParameter(ParameterDefinitionChunk newParam) => _parametersList.Add(newParam);
 
     public void SetReturnType(TypeNameChunk type) => _returnType = type;
+    public void AddComment(SummaryCommentChunk chunk) => _comment = chunk;
 
-    public bool AppendChunks(StringBuilder stringBuilder)
+    public override bool AppendChunks(StringBuilder stringBuilder)
     {
+        if (_comment?.AppendChunks(stringBuilder) == true)
+        {
+            stringBuilder.AppendLine();
+        }
+
         if (!_isPartial)
         {
-            new VisibilityKeywordCodeChunk(_visibility).AppendChunks(stringBuilder);
+            base.AppendChunks(stringBuilder);
         }
 
         //TODO: order and validate keywords
@@ -88,7 +105,25 @@ public class MethodDefinitionChunk(string methodName) : ICodeChunk
             var taskReturnType = TypeNameChunk.From<Task>();
             if (ReturnType != TypeNameChunk.Void)
             {
-                var chunk = new TypeNameChunk((PascalCaseName)ReturnType.Name);
+                var chunk = new TypeNameChunk(ReturnType.Name);
+                if (ReturnType.IsNullable)
+                {
+                    chunk.MakeNullable();
+                }
+
+                taskReturnType.AddGenericArgument(chunk);
+            }
+
+            _returnType = taskReturnType;
+        }     
+        
+        if (_isAsyncValueTask)
+        {
+            new AsyncKeywordChunk().AppendChunks(stringBuilder);
+            var taskReturnType = TypeNameChunk.From<ValueTask>();
+            if (ReturnType != TypeNameChunk.Void)
+            {
+                var chunk = new TypeNameChunk(ReturnType.Name);
                 if (ReturnType.IsNullable)
                 {
                     chunk.MakeNullable();

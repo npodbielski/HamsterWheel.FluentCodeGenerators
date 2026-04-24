@@ -1,4 +1,5 @@
 using HamsterWheel.FluentCodeGenerators.Chunks.Member;
+using HamsterWheel.FluentCodeGenerators.Chunks.Structure;
 using HamsterWheel.FluentCodeGenerators.Chunks.Syntax;
 using HamsterWheel.FluentCodeGenerators.Configurators;
 using HamsterWheel.FluentCodeGenerators.FluentApi.Contexts.Base;
@@ -82,6 +83,13 @@ public class MethodContext(CodeBuilderContextBase previous, MethodDefinitionChun
         return this;
     }
 
+    public IMethodContext MakeAsyncValueTask()
+    {
+        UsingsAppender.AddUsing<ValueTask>();
+        methodChunk.MakeAsyncValueTask();
+        return this;
+    }
+
     public IMethodContext MakeVirtual()
     {
         methodChunk.MakeVirtual();
@@ -91,6 +99,24 @@ public class MethodContext(CodeBuilderContextBase previous, MethodDefinitionChun
     public IMethodContext MakePartial()
     {
         methodChunk.MakePartial();
+        return this;
+    }
+
+    public IMethodContext WithAttribute(Action<ISingleAttributeContext> configure)
+    {
+        var currentAttrChunk = AttributeDefinitionChunk.Empty();
+        var context = SingleAttributeContext.From(this, currentAttrChunk);
+        methodChunk.AddAttribute(currentAttrChunk);
+        configure(context);
+        return this;
+    }
+
+    public IMethodContext WithComment(Action<ISummaryCommentContext> configure)
+    {
+        var chunk = new SummaryCommentChunk();
+        methodChunk.AddComment(chunk);
+        configure.Invoke(SummaryCommentContext.From(this, chunk));
+
         return this;
     }
 
@@ -115,7 +141,8 @@ public static class MethodContextExtensions
     }
 
     public static IMethodContext WithCancellation(this IMethodContext context) =>
-        context.WithParameter<CancellationToken>((PascalCaseName)nameof(CancellationToken).ToCamelCase(), p => p.PushToEnd());
+        context.WithParameter<CancellationToken>((PascalCaseName)nameof(CancellationToken).ToCamelCase(),
+            p => p.PushToEnd());
 
     public static IMethodContext WithParameter<TParam>(this IMethodContext context, IName name,
         Action<IParameterDefinitionContext>? configure = null)
@@ -204,4 +231,7 @@ public static class MethodContextExtensions
         });
         return context;
     }
+
+    public static IMethodContext WithAttribute<TAttr>(this IMethodContext context) where TAttr : Attribute =>
+        context.WithAttribute(a => a.From<TAttr>());
 }

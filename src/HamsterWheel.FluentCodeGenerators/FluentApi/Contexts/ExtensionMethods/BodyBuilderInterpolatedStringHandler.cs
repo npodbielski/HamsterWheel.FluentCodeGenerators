@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using HamsterWheel.FluentCodeGenerators.Chunks;
 using HamsterWheel.FluentCodeGenerators.Tokens;
+using Microsoft.CodeAnalysis;
 
 namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
 
@@ -22,6 +23,10 @@ public readonly struct BodyBuilderInterpolatedStringHandler(int literalLength, i
             case INameInNamespaceToken typeToken:
                 Namespaces.Add(typeToken.Namespace);
                 _builder.Append(typeToken.Name);
+                break;
+            case ITypeSymbol typeSymbol:
+                Namespaces.Add(typeSymbol.TranslateToExternalTypeInfo().Namespace);
+                _builder.Append(typeSymbol.Name);
                 break;
             case INamedChunk namedEntity:
                 _builder.Append(namedEntity.Name);

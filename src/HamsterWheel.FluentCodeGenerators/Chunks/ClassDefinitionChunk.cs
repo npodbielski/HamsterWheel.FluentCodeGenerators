@@ -54,7 +54,7 @@ public class ClassDefinitionChunk(TypeDefinitionWithPrimaryConstructorChunk name
 
     public override bool AppendChunks(StringBuilder stringBuilder)
     {
-        if (_comment?.AppendChunks(stringBuilder) == true && Attributes.HaveAttributes)
+        if (_comment?.AppendChunks(stringBuilder) == true)
         {
             stringBuilder.AppendLine();
         }

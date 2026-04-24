@@ -10,8 +10,11 @@ public class AttributesWithVisibilityChunk(bool attributesInline = false) : Attr
 
     public override bool AppendChunks(StringBuilder stringBuilder)
     {
-        base.AppendChunks(stringBuilder);
-        stringBuilder.AppendLine();
+        if (base.AppendChunks(stringBuilder))
+        {
+            stringBuilder.AppendLine();
+        }
+
         stringBuilder.Append(new VisibilityKeywordCodeChunk(_visibility));
 
         return true;

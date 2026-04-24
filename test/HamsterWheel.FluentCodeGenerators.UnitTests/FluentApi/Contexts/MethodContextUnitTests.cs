@@ -164,6 +164,40 @@ public class MethodContextUnitTests
     }
 
     [Fact]
+    public void MakeAsyncValueTask_WhenCalledOnVoid_ThenMakesMethodAsyncTask()
+    {
+        //arrange
+        var expected = """
+                       public async ValueTask NewMethod()
+                       {
+                       }
+                       """;
+
+        //act
+        _sut.MakeAsyncValueTask();
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void MakeAsyncValueTask_WhenCalledOnMethodWithReturnType_ThenMakesMethodAsyncTaskWithGenericParameter()
+    {
+        //arrange
+        var expected = """
+                       public async ValueTask<string> NewMethod()
+                       {
+                       }
+                       """;
+
+        //act
+        _sut.WithReturnType<string>().MakeAsyncValueTask();
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
     public void MakeVirtual_WhenCalled_ThenMakesMethodVirtual()
     {
         //arrange
@@ -190,6 +224,65 @@ public class MethodContextUnitTests
 
         //act
         _sut.MakePartial();
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+    
+    [Fact]
+    public void WithAttribute_WhenCalled_ThenMethodHaveAttribute()
+    {
+        //arrange
+        const string expected = """
+                                [Fact]
+                                public void NewMethod()
+                                {
+                                }
+                                """;
+
+        //act
+        _sut.WithAttribute(a => a.From<FactAttribute>());
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void WithComment_WhenCalled_ThenMethodHaveComment()
+    {
+        //arrange
+        const string expected = """
+                                /// <summary>
+                                /// My new method
+                                /// </summary>
+                                public void NewMethod()
+                                {
+                                }
+                                """;
+
+        //act
+        _sut.WithComment("My new method");
+
+        //assert
+        _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void WithCommentAndAttribute_WhenCalled_ThenMethodHaveComment()
+    {
+        //arrange
+        const string expected = """
+                                /// <summary>
+                                /// My new method
+                                /// </summary>
+                                [Fact]
+                                public void NewMethod()
+                                {
+                                }
+                                """;
+
+        //act
+        _sut.WithComment("My new method").WithAttribute<FactAttribute>();
 
         //assert
         _chunk.Should().RenderAs(expected);
