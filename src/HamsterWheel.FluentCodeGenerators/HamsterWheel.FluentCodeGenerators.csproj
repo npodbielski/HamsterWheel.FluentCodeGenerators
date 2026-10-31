@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>14</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HamsterWheel.CodeShare.Common" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" PrivateAssets="all"/>
+        <PackageReference Include="System.Text.Json" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HamsterWheel.FluentCodeGenerators.Abstractions\HamsterWheel.FluentCodeGenerators.Abstractions.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\README.md">
+            <Link>README.md</Link>
+        </Content>
+    </ItemGroup>
+
+</Project>

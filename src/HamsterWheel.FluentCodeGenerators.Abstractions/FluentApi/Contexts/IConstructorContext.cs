@@ -1,0 +1,3 @@
+namespace HamsterWheel.FluentCodeGenerators.FluentApi.Contexts;
+
+public interface IConstructorContext : IContext, IParametersDefinitionsBagContext<IConstructorContext>, IMemberWithTheBody<IConstructorContext>;

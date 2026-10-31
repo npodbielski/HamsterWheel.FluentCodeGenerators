@@ -1,0 +1,145 @@
+include:
+  # Release jobs (hidden .badges, .release): the git tag, the GitLab release
+  # and the public GitHub mirror, same as HLinq (ci/templates/release.yml).
+  - project: "ci/templates"
+    ref: "main"
+    file: "/release.yml"
+  # README gate (hidden .readme-check): badges referenced, versions in sync.
+  - project: "ci/templates"
+    ref: "main"
+    file: "/readme-check.yml"
+
+stages:
+  - build
+  - test
+  - release
+  - deploy
+
+image: mcr.microsoft.com/dotnet/sdk:10.0
+
+variables:
+  OBJECTS_DIRECTORY: 'obj'
+  NUGET_PACKAGES_DIRECTORY: '.nuget'
+  SOURCE_CODE_PATH: ''
+  TEST_RESULTS_DIR: './test-results'
+  FF_NETWORK_PER_BUILD: "true"
+
+cache:
+  key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+  paths:
+    - '$SOURCE_CODE_PATH$OBJECTS_DIRECTORY/project.assets.json'
+    - '$SOURCE_CODE_PATH$OBJECTS_DIRECTORY/*.csproj.nuget.*'
+    - '$NUGET_PACKAGES_DIRECTORY'
+  policy: pull-push
+
+# Scoped to the dotnet jobs: a repo-wide before_script would also run in the
+# python images of the shared templates (readme-check, badges, release).
+.dotnet:
+  before_script:
+    # Configure GitLab package registry as a NuGet source
+    - 'dotnet nuget add source "${CI_API_V4_URL}/groups/69/-/packages/nuget/index.json" --name group --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text'
+    - 'dotnet restore FluentCodeGenerators.slnx --packages $NUGET_PACKAGES_DIRECTORY'
+
+build:
+  stage: build
+  extends: .dotnet
+  script:
+    - 'dotnet build --no-restore'
+
+tests:
+  stage: test
+  extends: .dotnet
+  script:
+    - 'dotnet test --no-restore --coverlet --coverlet-exclude "[Humanizer*]*" --coverlet-output-format cobertura --results-directory $TEST_RESULTS_DIR --report-junit --report-junit-filename rspec.xml'
+    - 'grep -oP "line-rate=\"\\K[0-9.]+" $TEST_RESULTS_DIR/coverage.cobertura.*.xml | head -1 | awk "{printf \"Total | %.2f%%\\n\", \$1 * 100}" || true'
+  coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?)%/'
+  artifacts:
+    when: always
+    paths:
+      - $TEST_RESULTS_DIR/rspec.xml
+      - $TEST_RESULTS_DIR/coverage.cobertura.*.xml
+    reports:
+      junit:
+        - $TEST_RESULTS_DIR/rspec.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: $TEST_RESULTS_DIR/coverage.cobertura.*.xml
+
+package-alpha:
+  stage: deploy
+  extends: .dotnet
+  rules:
+    - if: $CI_COMMIT_BRANCH == "alpha"
+      changes:
+        - .gitlab-ci.yml
+        - src/**/*
+  script:
+    - dotnet build -c Release --no-restore
+    - dotnet pack -c Release --version-suffix $CI_COMMIT_BRANCH-$CI_JOB_ID
+    # Configure GitLab package registry as a NuGet source
+    - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    # Push the package to the project's package registry
+    - dotnet nuget push "src/**/bin/Release/*.nupkg" --source gitlab
+    #push demo package to feed also only for prerelease (we do not need demo packages in production feed)
+    - dotnet nuget push "demo/**/bin/Release/*.nupkg" --source gitlab
+  environment: staging
+
+badges:
+  extends: .badges
+  allow_failure: true
+  variables:
+    BADGE_SLUG: fluentcodegenerators
+    BADGES_SUITES: "unit=test-results"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: on_success
+      variables:
+        BADGES_PIPELINE_STATE: passed
+
+badges-failed:
+  extends: .badges
+  allow_failure: true
+  variables:
+    BADGE_SLUG: fluentcodegenerators
+    BADGES_SUITES: "unit=test-results"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: on_failure
+      variables:
+        BADGES_PIPELINE_STATE: failed
+
+readme-check:
+  extends: .readme-check
+  stage: test
+  variables:
+    BADGE_SLUG: fluentcodegenerators
+    README_BADGES: "release,pipeline,tests,coverage-unit"
+    README_PACKAGE_PREFIXES: HamsterWheel.FluentCodeGenerators
+
+release:
+  extends: .release
+  stage: release
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  variables:
+    GIT_DEPTH: "0"
+    BADGE_SLUG: fluentcodegenerators
+    GITHUB_MIRROR_URL: "git@github.com:npodbielski/HamsterWheel.FluentCodeGenerators.git"
+
+package:
+  stage: deploy
+  extends: .dotnet
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      changes:
+        - src/**/*
+  script:
+    - dotnet build -c Release --no-restore
+    - dotnet pack -c Release
+    # Configure GitLab package registry as a NuGet source
+    - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    # Push the package to the project's package registry
+    - dotnet nuget push "src/**/bin/Release/*.nupkg" --source gitlab
+    # Push the package to the Nuget.org feed
+    - dotnet nuget push "src/**/bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key $nuget_key
+  environment: production

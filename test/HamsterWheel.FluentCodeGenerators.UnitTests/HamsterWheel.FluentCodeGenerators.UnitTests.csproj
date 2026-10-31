@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\HamsterWheel.FluentCodeGenerators\HamsterWheel.FluentCodeGenerators.csproj" />
+        <ProjectReference Include="..\..\src\HamsterWheel.FluentGeneratorsl.AspNet\HamsterWheel.FluentGeneratorsl.AspNet.csproj" />
+    </ItemGroup>
+
+</Project>

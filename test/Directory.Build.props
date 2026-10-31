@@ -1,0 +1,30 @@
+<Project>
+
+    <Import Project="../Nuget.props"/>
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Using Include="Xunit"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+        <PackageReference Include="JunitXml.TestLogger"/>
+        <PackageReference Include="AutoFixture.Xunit3"/>
+        
+        <PackageReference Include="FluentAssertions"/>
+        <PackageReference Include="coverlet.MTP"/>
+        <PackageReference Include="NSubstitute"/>
+        <PackageReference Include="xunit.v3.mtp-v2"/>
+    </ItemGroup>
+
+</Project>
+

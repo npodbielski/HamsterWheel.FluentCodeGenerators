@@ -1,0 +1,16 @@
+﻿<Solution>
+  <Folder Name="/Demo/">
+    <Project Path="demo\HamsterWheel.FluentCodeGenerators.Demo.Use\HamsterWheel.FluentCodeGenerators.Demo.Use.csproj" Type="C#" />
+    <Project Path="demo\HamsterWheel.FluentCodeGenerators.DemoSolution.Use\HamsterWheel.FluentCodeGenerators.DemoSolution.Use.csproj" Type="C#" />
+    <Project Path="demo\HamsterWheel.FluentCodeGenerators.DemoSolution\HamsterWheel.FluentCodeGenerators.DemoSolution.csproj" Type="C#" />
+    <Project Path="demo\HamsterWheel.FluentCodeGenerators.Demo\HamsterWheel.FluentCodeGenerators.Demo.csproj" Type="C#" />
+  </Folder>
+  <Folder Name="/Src/">
+    <Project Path="src\HamsterWheel.FluentGeneratorsl.AspNet/HamsterWheel.FluentGeneratorsl.AspNet.csproj" />
+    <Project Path="src\HamsterWheel.FluentCodeGenerators.Abstractions\HamsterWheel.FluentCodeGenerators.Abstractions.csproj" Type="C#" />
+    <Project Path="src\HamsterWheel.FluentCodeGenerators\HamsterWheel.FluentCodeGenerators.csproj" Type="C#" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="test\HamsterWheel.FluentCodeGenerators.UnitTests\HamsterWheel.FluentCodeGenerators.UnitTests.csproj" Type="C#" />
+  </Folder>
+</Solution>

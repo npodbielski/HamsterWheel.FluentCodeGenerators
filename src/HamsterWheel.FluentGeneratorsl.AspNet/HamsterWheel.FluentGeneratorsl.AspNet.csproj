@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <Nullable>enable</Nullable>
+        <AssemblyName>HamsterWheel.FluentGenerators.AspNet</AssemblyName>
+        <RootNamespace>HamsterWheel.FluentGenerators.AspNet</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HamsterWheel.FluentCodeGenerators.Abstractions\HamsterWheel.FluentCodeGenerators.Abstractions.csproj" />
+      <ProjectReference Include="..\HamsterWheel.FluentCodeGenerators\HamsterWheel.FluentCodeGenerators.csproj" />
+    </ItemGroup>
+ </Project>
