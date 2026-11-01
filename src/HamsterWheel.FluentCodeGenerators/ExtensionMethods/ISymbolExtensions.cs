@@ -73,7 +73,7 @@ public static class ISymbolExtensions
         /// <summary>The constructed interface the type implements, when it implements this one.
         /// The generic contract goes in, its construction on the type comes out, so its
         /// TypeArguments are readable.</summary>
-        public INamedTypeSymbol? InterfaceImplementation(INamedTypeSymbol contract)
+        public INamedTypeSymbol? GetInterfaceImplementation(INamedTypeSymbol contract)
         {
             var definition = contract.OriginalDefinition;
             foreach (var implemented in symbol.AllInterfaces)
@@ -88,7 +88,7 @@ public static class ISymbolExtensions
         }
 
         public bool ImplementsInterface(INamedTypeSymbol contract) =>
-            symbol.InterfaceImplementation(contract) is not null;
+            symbol.GetInterfaceImplementation(contract) is not null;
 
         public ExternalTypeInfo TranslateToExternalTypeInfo() => symbol.TypeKind == TypeKind.Enum
             ? EnumTypeInfo.From((INamedTypeSymbol)symbol)

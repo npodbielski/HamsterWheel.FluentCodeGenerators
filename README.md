@@ -67,7 +67,7 @@ To create your own Nuget package with code generator, first you must prepare a n
 Then you must install the package in this project.
 
 ```xml
-<PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.6.6" PrivateAssets="all" />
+<PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.6.7" PrivateAssets="all" />
 ```
 
 
@@ -103,8 +103,8 @@ To bundle just dependencies `.dll`s add the following properties to all your ref
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.6.6" GeneratePathProperty="true" />
-  <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.6.6" GeneratePathProperty="true" />
+  <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.6.7" GeneratePathProperty="true" />
+  <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.6.7" GeneratePathProperty="true" />
 </ItemGroup>
 ```
 
@@ -144,8 +144,8 @@ The final project file should be similar to the below:
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.6.6" GeneratePathProperty="true" />
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.6.6" GeneratePathProperty="true" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.6.7" GeneratePathProperty="true" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.6.7" GeneratePathProperty="true" />
     </ItemGroup>
 
     <ItemGroup>
@@ -206,8 +206,8 @@ Your final project should be similar to:
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.6.6" GeneratePathProperty="true" PrivateAssets="all" />
-        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.6.6" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators" Version="0.6.7" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="HamsterWheel.FluentCodeGenerators.Abstractions" Version="0.6.7" GeneratePathProperty="true" PrivateAssets="all" />
     </ItemGroup>
 
     <!-- See https://github.com/dotnet/roslyn-sdk/blob/0313c80ed950ac4f4eef11bb2e1c6d1009b328c4/samples/CSharp/SourceGenerators/SourceGeneratorSamples/SourceGeneratorSamples.csproj#L13-L30

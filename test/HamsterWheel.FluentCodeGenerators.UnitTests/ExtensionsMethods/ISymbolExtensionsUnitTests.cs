@@ -268,7 +268,7 @@ public class ISymbolExtensionsUnitTests
     }
 
     [Fact]
-    public void InterfaceImplementation_WhenTypeImplementsContract_ThenTheConstructionOfIt()
+    public void GetInterfaceImplementation_WhenTypeImplementsContract_ThenTheConstructionOfIt()
     {
         //arrange
         var contract = new DummyNamedTypeSymbol("IFoo", "Test", isGenericType: true)
@@ -287,7 +287,7 @@ public class ISymbolExtensionsUnitTests
         };
 
         //act
-        var actual = type.InterfaceImplementation(contract);
+        var actual = type.GetInterfaceImplementation(contract);
 
         //assert
         actual.Should().BeSameAs(construction);
@@ -295,7 +295,7 @@ public class ISymbolExtensionsUnitTests
     }
 
     [Fact]
-    public void InterfaceImplementation_WhenTypeDoesNotImplementContract_ThenNull()
+    public void GetInterfaceImplementation_WhenTypeDoesNotImplementContract_ThenNull()
     {
         //arrange
         var contract = new DummyNamedTypeSymbol("IFoo", "Test", isGenericType: true);
@@ -305,7 +305,7 @@ public class ISymbolExtensionsUnitTests
         };
 
         //act
-        var actual = other.InterfaceImplementation(contract);
+        var actual = other.GetInterfaceImplementation(contract);
 
         //assert
         actual.Should().BeNull();
