@@ -7,7 +7,7 @@ public static class ISymbolExtensions
 {
     extension(ISymbol symbol)
     {
-        public INamedTypeSymbol? GetTypeArgument(int index) =>
+        public INamedTypeSymbol? GetTypeArgument(int index = 0) =>
             symbol is INamedTypeSymbol { IsGenericType: true } namedTypeSymbol &&
             namedTypeSymbol.TypeArguments.Length > index
                 ? namedTypeSymbol.TypeArguments[index] as INamedTypeSymbol
@@ -70,6 +70,26 @@ public static class ISymbolExtensions
 
     extension(ITypeSymbol symbol)
     {
+        /// <summary>The constructed interface the type implements, when it implements this one.
+        /// The generic contract goes in, its construction on the type comes out, so its
+        /// TypeArguments are readable.</summary>
+        public INamedTypeSymbol? InterfaceImplementation(INamedTypeSymbol contract)
+        {
+            var definition = contract.OriginalDefinition;
+            foreach (var implemented in symbol.AllInterfaces)
+            {
+                if (SymbolEqualityComparer.Default.Equals(implemented.OriginalDefinition, definition))
+                {
+                    return implemented;
+                }
+            }
+
+            return null;
+        }
+
+        public bool ImplementsInterface(INamedTypeSymbol contract) =>
+            symbol.InterfaceImplementation(contract) is not null;
+
         public ExternalTypeInfo TranslateToExternalTypeInfo() => symbol.TypeKind == TypeKind.Enum
             ? EnumTypeInfo.From((INamedTypeSymbol)symbol)
             : ExternalTypeInfo.From(symbol);

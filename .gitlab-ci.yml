@@ -8,6 +8,11 @@ include:
   - project: "ci/templates"
     ref: "main"
     file: "/readme-check.yml"
+  # Shared NuGet pack + publish job (hidden .nuget-publish): project registry
+  # first, then nuget.org with --skip-duplicate and a fail-loud nuget_key.
+  - project: "ci/templates"
+    ref: "main"
+    file: "/nuget-publish.yml"
 
 stages:
   - build
@@ -128,18 +133,20 @@ release:
 
 package:
   stage: deploy
-  extends: .dotnet
+  # .dotnet keeps the group feed source + restore (CodeShare packages come from
+  # there); .nuget-publish owns pack and both pushes.
+  extends:
+    - .dotnet
+    - .nuget-publish
+  needs:
+    - release
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
       changes:
+        # src change OR a version bump: a bump-only merge must publish too,
+        # otherwise a patch bump after a failed publish never ships
         - src/**/*
-  script:
-    - dotnet build -c Release --no-restore
-    - dotnet pack -c Release
-    # Configure GitLab package registry as a NuGet source
-    - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
-    # Push the package to the project's package registry
-    - dotnet nuget push "src/**/bin/Release/*.nupkg" --source gitlab
-    # Push the package to the Nuget.org feed
-    - dotnet nuget push "src/**/bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key $nuget_key
+        - Nuget.props
+  variables:
+    NUGET_PACK_TARGET: FluentCodeGenerators.slnx
   environment: production

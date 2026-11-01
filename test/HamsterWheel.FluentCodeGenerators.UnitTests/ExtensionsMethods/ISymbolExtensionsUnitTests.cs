@@ -251,6 +251,68 @@ public class ISymbolExtensionsUnitTests
     }
 
     [Fact]
+    public void GetTypeArgument_WhenCalledWithoutIndex_ThenFirstArgument()
+    {
+        //arrange
+        var first = new DummyNamedTypeSymbol("first", "test");
+        var symbol = new DummyNamedTypeSymbol("test", "test", isGenericType: true)
+        {
+            TypeArguments = [first, new DummyNamedTypeSymbol("second", "test")]
+        };
+
+        //act
+        var actual = symbol.GetTypeArgument();
+
+        //assert
+        actual.Should().BeSameAs(first);
+    }
+
+    [Fact]
+    public void InterfaceImplementation_WhenTypeImplementsContract_ThenTheConstructionOfIt()
+    {
+        //arrange
+        var contract = new DummyNamedTypeSymbol("IFoo", "Test", isGenericType: true)
+        {
+            OriginalDefinition = null!
+        };
+        contract.OriginalDefinition = contract;
+        var construction = new DummyNamedTypeSymbol("IFoo", "Test", isGenericType: true)
+        {
+            OriginalDefinition = contract,
+            TypeArguments = [new DummyNamedTypeSymbol("Bar", "Test")]
+        };
+        var type = new DummyNamedTypeSymbol("MyType", "Test")
+        {
+            AllInterfaces = [construction]
+        };
+
+        //act
+        var actual = type.InterfaceImplementation(contract);
+
+        //assert
+        actual.Should().BeSameAs(construction);
+        actual!.GetTypeArgument()!.Name.Should().Be("Bar");
+    }
+
+    [Fact]
+    public void InterfaceImplementation_WhenTypeDoesNotImplementContract_ThenNull()
+    {
+        //arrange
+        var contract = new DummyNamedTypeSymbol("IFoo", "Test", isGenericType: true);
+        var other = new DummyNamedTypeSymbol("IOther", "Test")
+        {
+            AllInterfaces = []
+        };
+
+        //act
+        var actual = other.InterfaceImplementation(contract);
+
+        //assert
+        actual.Should().BeNull();
+        other.ImplementsInterface(contract).Should().BeFalse();
+    }
+
+    [Fact]
     public void HaveAttributeOfType_WhenCalledWithCorrectType_ThenReturnsTrue()
     {
         //arrange

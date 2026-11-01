@@ -37,7 +37,7 @@ public class DummyNamedTypeSymbol(
     public ImmutableArray<Location> Locations { get; }
     public ImmutableArray<SyntaxReference> DeclaringSyntaxReferences { get; }
     public Accessibility DeclaredAccessibility { get; }
-    public INamedTypeSymbol OriginalDefinition { get; }
+    public INamedTypeSymbol OriginalDefinition { get; set; }
     public IMethodSymbol? DelegateInvokeMethod { get; }
     public INamedTypeSymbol? EnumUnderlyingType { get; }
     public INamedTypeSymbol ConstructedFrom { get; }
@@ -141,7 +141,7 @@ public class DummyNamedTypeSymbol(
     public TypeKind TypeKind { get; set; }
     public INamedTypeSymbol? BaseType { get; set; }
     public ImmutableArray<INamedTypeSymbol> Interfaces { get; }
-    public ImmutableArray<INamedTypeSymbol> AllInterfaces { get; }
+    public ImmutableArray<INamedTypeSymbol> AllInterfaces { get; set; }
     public bool IsReferenceType { get; }
     public bool IsValueType { get; }
     public bool IsAnonymousType { get; }
