@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace HamsterWheel.FluentCodeGenerators.External;
 
+[Obsolete("Use TypeToken; it carries the member names in EnumValues.")]
 public record EnumTypeInfo(
     PascalCaseName Name,
     Namespace Namespace,

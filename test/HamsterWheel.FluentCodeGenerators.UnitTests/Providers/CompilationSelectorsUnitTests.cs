@@ -75,6 +75,22 @@ public class CompilationSelectorsUnitTests
     }
 
     [Fact]
+    public void TypeTokenResolver_WhenCalledWithCompilation_ThenResolvesTokensWithRuntime()
+    {
+        // arrange
+        var compilation = GetTestCompilation();
+
+        // act
+        var resolver = CompilationSelectors.TypeTokenResolver(compilation, CancellationToken.None);
+
+        // assert
+        var resolved = resolver("System.Int32");
+        resolved!.Name.NameAsString.Should().Be("Int32");
+        resolved.Runtime.Should().Be(typeof(int));
+        resolver("No.Such.Type").Should().BeNull();
+    }
+
+    [Fact]
     public void GetAssemblyName_WhenCompilationHasAssemblyName_ThenReturnsAssemblyName()
     {
         // arrange

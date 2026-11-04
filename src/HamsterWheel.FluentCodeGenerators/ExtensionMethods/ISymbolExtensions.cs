@@ -13,6 +13,7 @@ public static class ISymbolExtensions
                 ? namedTypeSymbol.TypeArguments[index] as INamedTypeSymbol
                 : null;
 
+        [Obsolete("Use TypeToken.From; it fills Runtime from the symbol.")]
         public ClrTypeInfo? TranslateSymbolToClrType()
         {
             var symbolName = symbol.ToString();
@@ -90,6 +91,7 @@ public static class ISymbolExtensions
         public bool ImplementsInterface(INamedTypeSymbol contract) =>
             symbol.GetInterfaceImplementation(contract) is not null;
 
+        [Obsolete("Use TypeToken.From.")]
         public ExternalTypeInfo TranslateToExternalTypeInfo() => symbol.TypeKind == TypeKind.Enum
             ? EnumTypeInfo.From((INamedTypeSymbol)symbol)
             : ExternalTypeInfo.From(symbol);
@@ -102,6 +104,7 @@ public static class ISymbolExtensions
 
     extension(ITypeSymbol? symbol)
     {
+        [Obsolete("Use TypeToken.From; one token carries both worlds.")]
         public (ClrTypeInfo?, ExternalTypeInfo?) ToClrOrExternalType()
         {
             if (symbol is null)

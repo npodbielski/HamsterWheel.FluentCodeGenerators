@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 using HamsterWheel.FluentCodeGenerators.Chunks;
+using HamsterWheel.FluentCodeGenerators.External;
 using HamsterWheel.FluentCodeGenerators.Tokens;
 using Microsoft.CodeAnalysis;
 
@@ -27,7 +28,7 @@ public readonly struct BodyBuilderInterpolatedStringHandler(int literalLength, i
                     _builder.Append("[]");
                 break;
             case ITypeSymbol typeSymbol:
-                Namespaces.Add(typeSymbol.TranslateToExternalTypeInfo().Namespace);
+                Namespaces.Add(TypeToken.From(typeSymbol).Namespace);
                 _builder.Append(typeSymbol.Name);
                 break;
             case INamedChunk namedEntity:

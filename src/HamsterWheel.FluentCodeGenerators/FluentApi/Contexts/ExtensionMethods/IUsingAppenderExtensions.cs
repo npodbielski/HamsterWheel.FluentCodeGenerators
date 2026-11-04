@@ -42,6 +42,6 @@ public static class IUsingAppenderExtensions
             usings.AddUsing(namespaceName.ToNamespace());
 
         public void AddUsing(INamedTypeSymbol typeSymbol) =>
-            usings.AddUsing(ExternalTypeInfo.From(typeSymbol));
+            usings.AddUsing(TypeToken.From(typeSymbol));
     }
 }

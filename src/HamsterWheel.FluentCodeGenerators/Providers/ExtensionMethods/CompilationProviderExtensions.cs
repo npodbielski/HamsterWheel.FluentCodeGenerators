@@ -1,9 +1,11 @@
+using HamsterWheel.FluentCodeGenerators.External;
 using HamsterWheel.FluentCodeGenerators.Providers.Transformations;
 using Microsoft.CodeAnalysis;
 
 namespace HamsterWheel.FluentCodeGenerators.Providers;
 
 using TypeResolverDelegate = Func<string, INamedTypeSymbol?>;
+using TypeTokenResolverDelegate = Func<string, TypeToken?>;
 using AssemblyOrModuleResolverDelegate = Func<MetadataReference, ISymbol?>;
 using static ReferencesTransformations;
 
@@ -14,8 +16,12 @@ public static class CompilationProviderExtensions
         public IncrementalValueProvider<string> GetAssemblyName(string fallbackValue) =>
             compilation.Select((c, t) => CompilationSelectors.GetAssemblyName(c, fallbackValue, t));
 
+        [Obsolete("Use GetTypeTokenResolver; it hands out TypeToken, which carries the loaded type.")]
         public IncrementalValueProvider<TypeResolverDelegate> GetTypeResolver() =>
             compilation.Select(CompilationSelectors.TypeResolver);
+
+        public IncrementalValueProvider<TypeTokenResolverDelegate> GetTypeTokenResolver() =>
+            compilation.Select(CompilationSelectors.TypeTokenResolver);
 
         public IncrementalValueProvider<ITypeResolverService> GetTypeResolverService() =>
             compilation.Select(CompilationSelectors.TypeResolverService);

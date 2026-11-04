@@ -1,4 +1,5 @@
 using System.Data.Common;
+using HamsterWheel.FluentCodeGenerators.External;
 using System.Text;
 using HamsterWheel.FluentCodeGenerators.Chunks;
 using HamsterWheel.FluentCodeGenerators.Chunks.Body;
@@ -47,6 +48,20 @@ public class IBodyBuilderContextExtensionsUnitTests
 
         //assert
         _chunk.Should().RenderAs(expected);
+    }
+
+    [Fact]
+    public void Append_WhenCalledWithInterpolatedStringWithTypeToken_ThenRendersAndAddsUsing()
+    {
+        //arrange
+        var token = TypeToken.FromClr(typeof(DbConnectionStringBuilder));
+
+        //act
+        _sut.Append($"{token} r = new DbConnectionStringBuilder();");
+
+        //assert
+        _chunk.Should().RenderAs("DbConnectionStringBuilder r = new DbConnectionStringBuilder();");
+        _sut.Usings.Should().RenderAs("using System.Data.Common;");
     }
 
     [Fact]
